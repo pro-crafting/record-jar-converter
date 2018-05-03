@@ -1,4 +1,4 @@
-package de.procrafting.tools.recordjarconverter;
+package com.pro_crafting.tools.recordjarconverter;
 
 import io.swagger.annotations.Api;
 

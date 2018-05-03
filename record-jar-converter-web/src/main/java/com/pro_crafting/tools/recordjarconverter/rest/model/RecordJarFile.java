@@ -1,4 +1,4 @@
-package de.procrafting.tools.recordjarconverter.rest.model;
+package com.pro_crafting.tools.recordjarconverter.rest.model;
 
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
