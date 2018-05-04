@@ -9,10 +9,9 @@ cache:
   - "~/.m2/repository"
 
 before_install:
-- export
-- chmod +x cd/before-install.sh
-- chmod +x cd/install.sh
-before_install:
+  - export
+  - chmod +x cd/before-install.sh
+  - chmod +x cd/install.sh
   - "./cd/before-install.sh"
 install:
   - "./cd/install.sh"
