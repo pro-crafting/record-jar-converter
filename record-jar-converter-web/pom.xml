@@ -12,6 +12,11 @@
     <artifactId>record-jar-converter-web</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
+        <bla>${project.build.outputDirectory}</bla>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -59,7 +64,7 @@
     <dependencies>
         <!-- Internal Dependencies -->
         <dependency>
-            <groupId>de.pro_crafting.tools</groupId>
+            <groupId>com.pro-crafting.tools</groupId>
             <artifactId>record-jar-converter-service</artifactId>
         </dependency>
 
@@ -89,4 +94,55 @@
             <artifactId>jaxrs-multipart</artifactId>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>postremus/${project.artifactId}</name>
+                                    <run>
+                                        <ports>
+                                            <port>8080:8080</port>
+                                        </ports>
+                                    </run>
+                                    <build>
+                                        <tags>
+                                            <tag>latest</tag>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <from>openjdk:8-jre</from>
+                                        <ports>
+                                            <port>8080</port>
+                                        </ports>
+                                        <assembly>
+                                            <basedir>/</basedir>
+                                            <inline>
+                                                <files>
+                                                    <file>
+                                                        <source>${project.build.directory}/${project.build.finalName}-swarm.jar</source>
+                                                        <outputDirectory>/opt</outputDirectory>
+                                                    </file>
+                                                </files>
+                                            </inline>
+                                        </assembly>
+                                        <entryPoint>
+                                            <shell>java -Djava.net.preferIPv4Stack=true -jar /opt/${project.build.finalName}-swarm.jar</shell>
+                                        </entryPoint>
+                                        <maintainer><![CDATA[ Martin Panzer <postremus1996@googlemail.com> ]]></maintainer>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
