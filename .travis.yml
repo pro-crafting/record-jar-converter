@@ -10,8 +10,8 @@ cache:
 
 before_install:
 - export
-- chmod +x cd/before-deploy.sh
-- chmod +x cd/deploy.sh
+- chmod +x cd/before-install.sh
+- chmod +x cd/install.sh
 before_install:
   - "./cd/before-install.sh"
 install:
