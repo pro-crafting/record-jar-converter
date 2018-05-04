@@ -15,7 +15,7 @@ before_install:
 before_install:
   - "./cd/before-install.sh"
 install:
-  - "./cd/instalk.sh"
+  - "./cd/install.sh"
 env:
   global:
   - secure: SpXMXoT1brr1lDpZxX+A0rU6XWyu8Gm4Ma5lbX7EOgiHe5iRNiU0HVB3f4nKxG1GwBMeIbazsRNj1HZ9DUg87L4cclDznjvniUVwkwcDFmyhU7HOBsgLbUt/Sjx5fMgP7G7UDmioeMyxpi+KUUKHLq7uUdOhUSxX8mXr7O8M1oiQCWugmDf7bdhchSzcJzRy1nRDlX6g8bCHfsR9E/fS/j3Wv6SYVQ7/OFpTQANhTBSizRR2eeKuUfCecHd2P6wKwiKtu1ZJOilqDo5zk13bsfAxWcK1RKZaZ2R5+48toWmAKV5uiUIqlhIfwQmsLDSKZgamPi1LvZKFdLpu5Cu/432MgmdQtoshMJaDPBb4Y54E+GJP4enSSn62w+G5/KlnhgbMa3UGeKRLcd7yNxaDykeDaPEjZm5Q/+M25niLnoxzUt/eGPYYI6qAt9U8KpHAb8mZclPTfLqQzWldScyrxK16jKPUGsFQzq5fxUIHlgYT+3218VjBbY2D8gJ1x7nkXTQAUsvBvmGCFIi0xCeicg9HFKlHlFQJpo1LxYEFeEITTBbrwhl6c50BRThEW1XSPEFxx+iPcr9ekP0dtcWTxI2roWFHKNldRiWpUrMVrQABjJL+31SpdcaRdRq5tFNc9l/U0BYzLsymL9Bglqx0LQkEmhP36QvxM/hAWagKw8U=
