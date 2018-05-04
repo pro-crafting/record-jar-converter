@@ -47,7 +47,7 @@
             </dependency>
 
             <dependency>
-                <groupId>de.pro_crafting.tools</groupId>
+                <groupId>com.pro-crafting.tools</groupId>
                 <artifactId>record-jar-converter-service</artifactId>
                 <version>${parent.version}</version>
             </dependency>
