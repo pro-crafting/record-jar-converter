@@ -64,7 +64,7 @@
     <dependencies>
         <!-- Internal Dependencies -->
         <dependency>
-            <groupId>de.pro_crafting.tools</groupId>
+            <groupId>com.pro-crafting.tools</groupId>
             <artifactId>record-jar-converter-service</artifactId>
         </dependency>
 
