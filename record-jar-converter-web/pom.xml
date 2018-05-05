@@ -46,6 +46,10 @@
                                 <version>${parent.version}</version>
                             </info>
                             <swaggerDirectory>${project.build.directory}</swaggerDirectory>
+                            <swaggerApiReader>com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion</swaggerApiReader>
+                            <swaggerExtensions>
+                                <swaggerExtension>com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension</swaggerExtension>
+                            </swaggerExtensions>
                         </apiSource>
                     </apiSources>
                 </configuration>
