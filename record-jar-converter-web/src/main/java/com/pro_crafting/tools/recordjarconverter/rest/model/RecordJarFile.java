@@ -17,7 +17,7 @@ public class RecordJarFile {
     @PartType("text/plain")
     private String encoding;
 
-    @ApiParam(value = "Record Jar Formatted file", required = true)
+    @ApiParam(value = "Record Jar formatted file", required = true)
     public File getFile() {
         return file;
     }
