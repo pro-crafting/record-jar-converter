@@ -29,6 +29,7 @@ public class RecordJarResource {
     private RecordJarService service;
 
     @POST
+    @Path("multipart")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Converts a record-jar formatted file to JSON. Convenience method for file based conversion.", response = Map.class, responseContainer = "List")
@@ -38,6 +39,7 @@ public class RecordJarResource {
     }
 
     @POST
+    @Path("text")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Converts a record-jar formatted text to JSON. Convenience method for easy converting of text.", response = Map.class, responseContainer = "List")
@@ -52,6 +54,7 @@ public class RecordJarResource {
     }
 
     @POST
+    @Path("form")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Converts a record-jar formatted text to JSON. Convenience method for easy converting of text from html forms.", response = Map.class, responseContainer = "List")
