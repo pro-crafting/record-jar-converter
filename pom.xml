@@ -132,4 +132,11 @@
 
         </pluginManagement>
     </build>
+
+    <scm>
+        <connection>scm:git:git@github.com:Postremus/record-jar-converter.git</connection>
+        <url>https://github.com/Postremus/record-jar-converter</url>
+        <developerConnection>scm:git:git@github.com:Postremus/record-jar-converter.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 </project>
