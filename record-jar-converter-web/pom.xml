@@ -43,7 +43,7 @@
                             <basePath>/v1</basePath>
                             <info>
                                 <title>Record Jar Converter</title>
-                                <version>${parent.version}</version>
+                                <version>${project.version}</version>
                             </info>
                             <swaggerDirectory>${project.build.directory}</swaggerDirectory>
                             <swaggerApiReader>com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion</swaggerApiReader>
