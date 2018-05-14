@@ -119,7 +119,7 @@
                                             <tag>latest</tag>
                                             <tag>${project.version}</tag>
                                         </tags>
-                                        <from>openjdk:8-jre</from>
+                                        <from>openjdk:8-jre-alpine</from>
                                         <ports>
                                             <port>8080</port>
                                         </ports>
