@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.pro-crafting</groupId>
         <artifactId>pc-parent</artifactId>
@@ -20,11 +21,11 @@
 
     <properties>
         <!-- Settings -->
+        <debugPort>5005</debugPort>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- Dependency Versions -->
         <version.wildfly.swarm>2018.4.1</version.wildfly.swarm>
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
@@ -86,7 +87,6 @@
                     <groupId>org.wildfly.swarm</groupId>
                     <artifactId>wildfly-swarm-plugin</artifactId>
                     <version>${version.wildfly.swarm}</version>
-
                     <executions>
                         <execution>
                             <goals>
@@ -131,6 +131,36 @@
 
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>debug</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.wildfly.swarm</groupId>
+                            <artifactId>wildfly-swarm-plugin</artifactId>
+                            <version>${version.wildfly.swarm}</version>
+                            <configuration>
+                                <debugPort>${debugPort}</debugPort>
+                                <properties>
+                                    <swarm.debug.port>${debugPort}</swarm.debug.port>
+                                </properties>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>package</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 
     <scm>
         <connection>scm:git:git@github.com:Postremus/record-jar-converter.git</connection>
