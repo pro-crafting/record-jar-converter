@@ -30,6 +30,7 @@
         <version.wildfly.swarm>2018.4.1</version.wildfly.swarm>
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
         <version.commons-io>2.6</version.commons-io>
+        <version.guava>25.0-jre</version.guava>
 
         <!-- Plugins Versions -->
         <version.swagger-maven-plugin>3.1.8.FT.1</version.swagger-maven-plugin>
@@ -40,6 +41,8 @@
         <!-- Test Dependency Versions -->
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
         <junit.platform.version>1.2.0</junit.platform.version>
+        <version.mockito-core>2.18.3</version.mockito-core>
+        <version.weld-junit5>1.2.2.Final</version.weld-junit5>
     </properties>
 
     <dependencyManagement>
@@ -70,11 +73,38 @@
                 <version>${version.commons-io}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.guava}</version>
+            </dependency>
+
             <!-- Test dependencies -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${version.mockito-core}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${version.mockito-core}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.weld</groupId>
+                <artifactId>weld-junit5</artifactId>
+                <version>${version.weld-junit5}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -126,6 +156,9 @@
                             <version>${junit.platform.version}</version>
                         </dependency>
                     </dependencies>
+                    <configuration>
+                        <skipTests>false</skipTests>
+                    </configuration>
                 </plugin>
             </plugins>
 
