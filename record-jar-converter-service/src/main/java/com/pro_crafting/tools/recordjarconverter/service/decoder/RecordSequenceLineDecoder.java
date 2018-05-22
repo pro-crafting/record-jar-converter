@@ -1,11 +1,12 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
 import com.google.common.collect.Lists;
-import com.pro_crafting.tools.recordjarconverter.service.Violation;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Dependent
 public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Map<String, String>>> {
@@ -21,8 +22,8 @@ public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Map<Str
 
 
     @Override
-    public void parseLine(String line, int lineNumber) {
-        Map<String, String> record = engine.chainNextDecoder(decoder, line, lineNumber);
+    public void parseLine(String line) {
+        Map<String, String> record = engine.chainNextDecoder(decoder, line);
         if (record != null) {
             this.records.add(record);
         }
@@ -52,11 +53,6 @@ public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Map<Str
     public void reset() {
         this.decoder.reset();
         this.records.clear();
-    }
-
-    @Override
-    public Collection<Violation> getViolations() {
-        return Lists.newArrayList(engine.getViolations());
     }
 
     @Override

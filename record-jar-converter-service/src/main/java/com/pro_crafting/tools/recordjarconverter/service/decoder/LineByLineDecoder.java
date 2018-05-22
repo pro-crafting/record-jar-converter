@@ -1,21 +1,15 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
-import com.pro_crafting.tools.recordjarconverter.service.Violation;
-
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * A decoder is
  * @param <T>
  */
 public interface LineByLineDecoder<T> {
     /**
-     *
+     * Instructs this decoder to begin parsing of a raw line of text.
      * @param line line currently being read. Not allowed to be null.
-     * @param lineNumber line number of the currently read line
      */
-    void parseLine(String line, int lineNumber);
+    void parseLine(String line);
 
     /**
      * Determines if an implemtation cares about a given line, based on the format of the line
@@ -36,12 +30,6 @@ public interface LineByLineDecoder<T> {
      * Resets this decoders internal state to its initial state. Used when the decoder is getting reused.
      */
     void reset();
-
-    /**
-     * Get all produced violations by this decoder
-     * @return returns all violations, or an empty Collection, if no violation was produced
-     */
-    Collection<Violation> getViolations();
 
     /**
      * Has this decoder read any data successfully

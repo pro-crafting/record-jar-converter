@@ -3,11 +3,11 @@ package com.pro_crafting.tools.recordjarconverter.service.decoder;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Dependent
 public class RecordLineDecoder implements LineByLineDecoder<Map<String, String>> {
@@ -23,8 +23,8 @@ public class RecordLineDecoder implements LineByLineDecoder<Map<String, String>>
     private final List<Violation> violations = new ArrayList<>();
 
     @Override
-    public void parseLine(String line, int lineNumber) {
-        Map.Entry<String, String> field = engine.chainNextDecoder(decoder, line, lineNumber);
+    public void parseLine(String line) {
+        Map.Entry<String, String> field = engine.chainNextDecoder(decoder, line);
         if (field != null) {
             this.record.put(field.getKey(), field.getValue());
         }
@@ -55,11 +55,6 @@ public class RecordLineDecoder implements LineByLineDecoder<Map<String, String>>
         this.decoder.reset();
         this.record.clear();
         this.violations.clear();
-    }
-
-    @Override
-    public Collection<Violation> getViolations() {
-        return Stream.of(this.violations, engine.getViolations()).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     @Override

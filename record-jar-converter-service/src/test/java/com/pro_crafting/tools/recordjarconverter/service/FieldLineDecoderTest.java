@@ -1,15 +1,27 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
 import com.pro_crafting.tools.recordjarconverter.service.decoder.FieldLineDecoder;
+import org.jboss.weld.junit5.EnableWeld;
+import org.jboss.weld.junit5.WeldInitiator;
+import org.jboss.weld.junit5.WeldSetup;
 import org.junit.jupiter.api.Test;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@EnableWeld
 class FieldLineDecoderTest {
 
-    private FieldLineDecoder decoder = new FieldLineDecoder();
+    @WeldSetup
+    private WeldInitiator weld = WeldInitiator.from(WeldInitiator.createWeld().addPackage(true, RecordJarService.class)).activate(RequestScoped.class).build();
+
+    @Inject
+    private FieldLineDecoder decoder;
+
+    @Inject
+    private DecoderContext context;
 
     @Test
     void testParseLine() {
@@ -17,19 +29,18 @@ class FieldLineDecoderTest {
         String line2 = " of the sol system";
         String failingLine = "Sol System";
 
-        FieldLineDecoder fieldLineDecoder = new FieldLineDecoder();
-        assertEquals(0, fieldLineDecoder.getViolations().size());
+        assertEquals(0, context.getViolations().size());
 
-        fieldLineDecoder.parseLine(line, 10);
-        fieldLineDecoder.parseLine(line2, 11);
-        assertEquals(0, fieldLineDecoder.getViolations().size());
-        assertEquals("Planet", fieldLineDecoder.gatherData().getKey());
-        assertEquals("Earth of the sol system", fieldLineDecoder.gatherData().getValue());
+        decoder.parseLine(line);
+        decoder.parseLine(line2);
+        assertEquals(0, context.getViolations().size());
+        assertEquals("Planet", decoder.gatherData().getKey());
+        assertEquals("Earth of the sol system", decoder.gatherData().getValue());
 
-        fieldLineDecoder = new FieldLineDecoder();
-        fieldLineDecoder.parseLine(line2, 10);
-        fieldLineDecoder.parseLine(failingLine, 11);
-        assertEquals(2, fieldLineDecoder.getViolations().size());
+        decoder = weld.select(FieldLineDecoder.class).get();
+        decoder.parseLine(line2);
+        decoder.parseLine(failingLine);
+        assertEquals(2, context.getViolations().size());
     }
 
     @Test
@@ -38,17 +49,15 @@ class FieldLineDecoderTest {
         String line2 = " of the sol system";
         String failingLine = "Sol System";
 
-        FieldLineDecoder fieldLineDecoder = new FieldLineDecoder();
-        assertTrue(fieldLineDecoder.caresAboutLine(line));
-        assertTrue(fieldLineDecoder.caresAboutLine(line2));
-        assertFalse(fieldLineDecoder.caresAboutLine(failingLine));
+        assertTrue(decoder.caresAboutLine(line));
+        assertTrue(decoder.caresAboutLine(line2));
+        assertFalse(decoder.caresAboutLine(failingLine));
     }
 
     @Test
     void testGetViolations() {
         String failingLine = "Sol System";
-        FieldLineDecoder fieldLineDecoder = new FieldLineDecoder();
-        assertFalse(fieldLineDecoder.caresAboutLine(failingLine));
-        assertTrue(fieldLineDecoder.getViolations().isEmpty());
+        assertFalse(decoder.caresAboutLine(failingLine));
+        assertTrue(context.getViolations().isEmpty());
     }
 }

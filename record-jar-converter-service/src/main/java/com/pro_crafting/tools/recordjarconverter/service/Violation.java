@@ -1,17 +1,37 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
 public class Violation {
-    private int lineNumber;
+    private final String line;
+    private final String errorCode;
+    private final String message;
+    private final int row;
+    private final int column;
 
-    public Violation(int lineNumber) {
-        this.lineNumber = lineNumber;
+    public Violation(String line, String errorCode, String message, int row, int column) {
+        this.line = line;
+        this.errorCode = errorCode;
+        this.message = message;
+        this.row = row;
+        this.column = column;
     }
 
-    public int getLineNumber() {
-        return lineNumber;
+    public String getLine() {
+        return line;
     }
 
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

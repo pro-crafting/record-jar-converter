@@ -2,14 +2,13 @@ package com.pro_crafting.tools.recordjarconverter.service;
 
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoder;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoderEngine;
-import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordLineDecoder;
-import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordSequenceLineDecoder;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.InputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 @Dependent
 public class RecordJarService {
@@ -25,6 +24,9 @@ public class RecordJarService {
     @Inject
     private LineByLineDecoderEngine engine;
 
+    @Inject
+    private DecoderContext context;
+
     public List<Map<String, String>> convert(InputStream content, String encoding) {
         if (encoding == null || encoding.isEmpty()) {
             encoding = DEFAULT_ENCODING;
@@ -34,13 +36,14 @@ public class RecordJarService {
         int lineNumber = 0;
         while(scanner.hasNextLine()) {
             lineNumber++;
+            context.setLineNumber(lineNumber);
 
             String line = scanner.nextLine();
-            engine.chainNextDecoder(decoder, line, lineNumber);
+            engine.chainNextDecoder(decoder, line);
         }
         List<Map<String, String>> records = decoder.gatherData();
-        if (!engine.getViolations().isEmpty()) {
-            throw new ViolationException(engine.getViolations());
+        if (!context.getViolations().isEmpty()) {
+            throw new ViolationException(context.getViolations());
         }
         return records;
     }

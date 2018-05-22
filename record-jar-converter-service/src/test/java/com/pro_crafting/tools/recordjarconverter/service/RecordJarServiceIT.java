@@ -1,37 +1,32 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
-import com.pro_crafting.tools.recordjarconverter.service.decoder.FieldLineDecoder;
-import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoderEngine;
-import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordLineDecoder;
-import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordSequenceLineDecoder;
-import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
-import org.jboss.weld.junit5.WeldJunit5Extension;
 import org.jboss.weld.junit5.WeldSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * All examples are taken from either RFC5646 or the art of unix programming
+ * All examples are taken from either RFC5646 or the art of unix programming.
  */
 @EnableWeld
 @ExtendWith({MockitoExtension.class})
-public class RecordJarServiceTest {
+public class RecordJarServiceIT {
     public static final String ENCODING = "UTF-8";
 
     @WeldSetup
-    private WeldInitiator weld = WeldInitiator.of(WeldInitiator.createWeld().addPackage(true, RecordJarService.class));
+    private WeldInitiator weld = WeldInitiator.from(WeldInitiator.createWeld().addPackage(true, RecordJarService.class)).activate(RequestScoped.class).build();
 
     @Inject
     private RecordJarService service;
