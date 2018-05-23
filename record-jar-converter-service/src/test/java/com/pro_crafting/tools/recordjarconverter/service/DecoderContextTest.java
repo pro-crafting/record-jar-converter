@@ -22,7 +22,7 @@ class DecoderContextTest {
 
     @Test
     void testAddViolationWithoutColumnCallsWithColumn() {
-        context.addViolation("", ErrorCode.ERROR_FIELD_EMPTY_BODY, 0);
+        context.addViolation("", ErrorCode.ERROR_FIELD_EMPTY_BODY);
         verify(context).addViolation(any(String.class), any(String.class), anyInt(), anyInt());
     }
 
