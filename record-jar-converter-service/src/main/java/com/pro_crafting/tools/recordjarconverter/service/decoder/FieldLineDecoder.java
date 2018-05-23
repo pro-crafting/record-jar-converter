@@ -38,7 +38,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             String[] tokens = line.split(FIELD_SEPERATOR);
 
             if (tokens.length < 2) {
-                context.addViolation(line, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY, context.getLineNumber());
+                context.addViolation(line, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
                 return;
             }
 
@@ -52,7 +52,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
 
             // Whitespace characters and colon (":", %x3A) are not permitted in a field-name.
             if (tokens[0].contains(" ")) {
-                context.addViolation(line, ErrorCode.ERROR_FIELD_NAME_INVALID, context.getLineNumber());
+                context.addViolation(line, ErrorCode.ERROR_FIELD_NAME_INVALID);
                 return;
             }
 
@@ -75,13 +75,15 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
 
     @Override
     public Map.Entry<String, String> gatherData() {
-        /*
-           Note that entirely blank continuation lines are not permitted.  That
-           is, this record is illegal, since the field-body [..] would
-           be the empty string.
-         */
-        if (Strings.isNullOrEmpty(this.body)) {
-            context.addViolation(this.name, ErrorCode.ERROR_FIELD_EMPTY_BODY, context.getLineNumber());
+        if (Strings.isNullOrEmpty(this.name)) {
+            context.addViolation(this.name, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
+        } else if (Strings.isNullOrEmpty(this.body)) {
+            /*
+               Note that entirely blank continuation lines are not permitted.  That
+               is, this record is illegal, since the field-body [..] would
+               be the empty string.
+             */
+            context.addViolation(this.name, ErrorCode.ERROR_FIELD_EMPTY_BODY);
         }
 
         return hasData() ? new AbstractMap.SimpleEntry<>(name, body) : null;

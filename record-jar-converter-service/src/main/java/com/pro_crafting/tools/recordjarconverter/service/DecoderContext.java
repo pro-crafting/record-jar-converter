@@ -12,8 +12,8 @@ public class DecoderContext {
     private int lineNumber;
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("violations");
 
-    public void addViolation(String line, String errorCode, int row) {
-        this.addViolation(line, errorCode, row, 0);
+    public void addViolation(String line, String errorCode) {
+        this.addViolation(line, errorCode, getLineNumber(), 0);
     }
 
     public void addViolation(String line, String errorCode, int row, int column) {
@@ -22,7 +22,7 @@ public class DecoderContext {
     }
 
     /**
-     * Get all occured violations. To add violations, use {@link #addViolation(String, String, int)}
+     * Get all occured violations. To add violations, use {@link #addViolation(String, String)}
      * @return all occured violations as a set. Changes to this set will not be applied to the violations in the DecoderContext.
      */
     public Set<Violation> getViolations() {
