@@ -1,25 +1,40 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
+import org.jboss.weld.junit5.EnableWeld;
+import org.jboss.weld.junit5.WeldInitiator;
+import org.jboss.weld.junit5.WeldSetup;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * All examples are taken from either RFC5646 or the art of unix programming
+ * All examples are taken from either RFC5646 or the art of unix programming.
  */
-public class RecordJarServiceTest {
+@EnableWeld
+@ExtendWith({MockitoExtension.class})
+public class RecordJarServiceIT {
     public static final String ENCODING = "UTF-8";
+
+    @WeldSetup
+    private WeldInitiator weld = WeldInitiator.from(WeldInitiator.createWeld().addPackage(true, RecordJarService.class)).activate(RequestScoped.class).build();
+
+    @Inject
+    private RecordJarService service;
 
     @Test
     void testConvertSingleFieldSingleRecord() {
         String line = "Planet: Mercury";
 
-        RecordJarService service = new RecordJarService();
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
@@ -36,7 +51,6 @@ public class RecordJarServiceTest {
                 "Diameter: 4,880 km",
                 "Mass: 3.30e23 kg");
 
-        RecordJarService service = new RecordJarService();
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
@@ -66,7 +80,6 @@ public class RecordJarServiceTest {
                 "Mass: 5.972e24 kg",
                 "Moons: Luna");
 
-        RecordJarService service = new RecordJarService();
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(3, records.size());
@@ -97,7 +110,6 @@ public class RecordJarServiceTest {
                 " Association)",
                 "Added: 2005-08-16");
 
-        RecordJarService service = new RecordJarService();
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
@@ -132,7 +144,6 @@ public class RecordJarServiceTest {
                 "%%"
                 );
 
-        RecordJarService service = new RecordJarService();
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(3, records.size());
