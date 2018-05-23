@@ -26,6 +26,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <file.hollow-jar>${project.build.finalName}-hollow-swarm.jar</file.hollow-jar>
+        <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
+
         <!-- Dependency Versions -->
         <version.wildfly.swarm>2018.4.1</version.wildfly.swarm>
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
@@ -117,6 +120,9 @@
                     <groupId>org.wildfly.swarm</groupId>
                     <artifactId>wildfly-swarm-plugin</artifactId>
                     <version>${version.wildfly.swarm}</version>
+                    <configuration>
+                        <hollow>true</hollow>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
@@ -180,6 +186,7 @@
                                 <properties>
                                     <swarm.debug.port>${debugPort}</swarm.debug.port>
                                 </properties>
+                                <hollow>true</hollow>
                             </configuration>
                             <executions>
                                 <execution>

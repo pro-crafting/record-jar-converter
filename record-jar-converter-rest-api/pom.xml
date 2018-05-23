@@ -15,6 +15,9 @@
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
+                <configuration>
+                    <hollow>true</hollow>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.coderplus.maven.plugins</groupId>
@@ -55,29 +58,25 @@
                                         </ports>
                                     </run>
                                     <build>
-                                        <tags>
-                                            <tag>latest</tag>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                        <from>openjdk:8-jre-alpine</from>
-                                        <ports>
-                                            <port>8080</port>
-                                        </ports>
+                                        <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
                                         <assembly>
                                             <basedir>/</basedir>
                                             <inline>
                                                 <files>
                                                     <file>
-                                                        <source>${project.build.directory}/${project.build.finalName}-swarm.jar</source>
-                                                        <outputDirectory>/opt</outputDirectory>
+                                                        <source>${project.build.directory}/${file.hollow-jar}</source>
+                                                    </file>
+                                                    <file>
+                                                        <source>${project.build.directory}/${file.hollow-app}</source>
                                                     </file>
                                                 </files>
                                             </inline>
                                         </assembly>
-                                        <entryPoint>
-                                            <shell>java -Djava.net.preferIPv4Stack=true -jar /opt/${project.build.finalName}-swarm.jar</shell>
-                                        </entryPoint>
-                                        <maintainer><![CDATA[ Martin Panzer <postremus1996@googlemail.com> ]]></maintainer>
+
+                                        <tags>
+                                            <tag>latest</tag>
+                                            <tag>${project.version}</tag>
+                                        </tags>
                                     </build>
                                 </image>
                             </images>
