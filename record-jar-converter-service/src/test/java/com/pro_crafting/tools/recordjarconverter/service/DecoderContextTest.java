@@ -1,9 +1,13 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.MissingResourceException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,10 +27,20 @@ class DecoderContextTest {
     }
 
     @Test
-    void testGddViolationGetProperties() {
+    void testAddViolationGetProperties() {
         context.addViolation("", ErrorCode.ERROR_FIELD_EMPTY_BODY, 0, 0);
         assertEquals(1, context.getViolations().size());
         assertNotNull(context.getViolations().iterator().next().getMessage());
+    }
+
+    @Test
+    void testAddViolationThrowsMissingRessource() {
+        Assertions.assertThrows(MissingResourceException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                context.addViolation("", "", 0, 0);
+            }
+        });
     }
 
     @Test
