@@ -29,7 +29,7 @@
         <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
 
         <!-- Dependency Versions -->
-        <version.wildfly.swarm>2018.4.1</version.wildfly.swarm>
+        <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
         <version.commons-io>2.6</version.commons-io>
         <version.guava>25.0-jre</version.guava>
