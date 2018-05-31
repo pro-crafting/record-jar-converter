@@ -15,9 +15,6 @@
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
-                <configuration>
-                    <hollow>true</hollow>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.coderplus.maven.plugins</groupId>
@@ -51,7 +48,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>postremus/${project.artifactId}</name>
+                                    <name>${docker.repository}/${project.artifactId}</name>
                                     <run>
                                         <ports>
                                             <port>8080:8080</port>

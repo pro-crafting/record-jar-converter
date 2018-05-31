@@ -1,5 +1,6 @@
-package com.pro_crafting.tools.recordjarconverter.service;
+package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
+import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordLineDecoder;
 import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;

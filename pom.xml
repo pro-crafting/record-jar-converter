@@ -27,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <file.hollow-jar>${project.build.finalName}-hollow-swarm.jar</file.hollow-jar>
         <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
+        <docker.repository>postremus</docker.repository>
 
         <!-- Dependency Versions -->
         <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
@@ -34,17 +35,19 @@
         <version.commons-io>2.6</version.commons-io>
         <version.guava>25.0-jre</version.guava>
 
-        <!-- Plugins Versions -->
+        <!-- Plugin Versions -->
         <version.swagger-maven-plugin>3.1.8.FT.1</version.swagger-maven-plugin>
         <version.swagger-maven-plugin-extensions>1.0.0</version.swagger-maven-plugin-extensions>
         <version.docker-maven-plugin>0.25.2</version.docker-maven-plugin>
         <version.maven-surefire-plugin>2.21.0</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
 
         <!-- Test Dependency Versions -->
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
         <junit.platform.version>1.2.0</junit.platform.version>
         <version.mockito-core>2.18.3</version.mockito-core>
         <version.weld-junit5>1.2.2.Final</version.weld-junit5>
+        <version.rest-assured>3.1.0</version.rest-assured>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +85,13 @@
             </dependency>
 
             <!-- Test dependencies -->
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${version.rest-assured}</version>
+                <scope>test</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
@@ -161,13 +171,33 @@
                             <version>${junit.platform.version}</version>
                         </dependency>
                     </dependencies>
-                    <configuration>
-                        <skipTests>false</skipTests>
-                    </configuration>
                 </plugin>
             </plugins>
 
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven-failsafe-plugin}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junit.platform.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -187,11 +217,66 @@
                                 </properties>
                                 <hollow>true</hollow>
                             </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>ws-it</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.wildfly.swarm</groupId>
+                            <artifactId>wildfly-swarm-plugin</artifactId>
                             <executions>
                                 <execution>
+                                    <id>start</id>
                                     <goals>
-                                        <goal>package</goal>
+                                        <goal>start</goal>
                                     </goals>
+                                    <phase>pre-integration-test</phase>
+                                </execution>
+                                <execution>
+                                    <id>stop</id>
+                                    <goals>
+                                        <goal>stop</goal>
+                                    </goals>
+                                    <phase>post-integration-test</phase>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>docker-it</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>start</id>
+                                    <goals>
+                                        <goal>start</goal>
+                                    </goals>
+                                    <phase>pre-integration-test</phase>
+                                </execution>
+                                <execution>
+                                    <id>stop</id>
+                                    <goals>
+                                        <goal>stop</goal>
+                                        <goal>remove</goal>
+                                    </goals>
+                                    <phase>post-integration-test</phase>
                                 </execution>
                             </executions>
                         </plugin>

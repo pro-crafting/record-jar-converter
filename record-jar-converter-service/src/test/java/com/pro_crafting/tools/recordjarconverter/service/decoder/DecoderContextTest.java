@@ -1,5 +1,8 @@
-package com.pro_crafting.tools.recordjarconverter.service;
+package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
+import com.pro_crafting.tools.recordjarconverter.service.DecoderContext;
+import com.pro_crafting.tools.recordjarconverter.service.ErrorCode;
+import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
