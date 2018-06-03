@@ -39,7 +39,7 @@ public class RecordJarResource {
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
             )
     })
-    public Response upload(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
+    public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
         List<Map<String, String>> records = service.convert(new FileInputStream(recordJarFile.getFile()), recordJarFile.getEncoding());
         return Response.ok().entity(records).build();
     }
@@ -57,7 +57,7 @@ public class RecordJarResource {
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
             )
     })
-    public Response uploadFormText(@ApiParam @MultipartForm RecordJarText recordJarText) {
+    public Response uploadMultipartText(@ApiParam @MultipartForm RecordJarText recordJarText) {
         if (recordJarText.getEncoding() == null) {
             recordJarText.setEncoding("UTF-8");
         }
