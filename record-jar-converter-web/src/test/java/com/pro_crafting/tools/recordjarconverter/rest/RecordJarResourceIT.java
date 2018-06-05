@@ -1,35 +1,28 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.pro_crafting.tools.recordjarconverter.IntegrationTestBase;
 import com.pro_crafting.tools.recordjarconverter.RestApplication;
-import io.restassured.RestAssured;
-import io.restassured.config.LogConfig;
-import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.*;
-import org.xnio.IoUtils;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
 
-import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfValidationFails;
 import static io.restassured.RestAssured.given;
 import static org.apache.commons.io.IOUtils.resourceToByteArray;
 import static org.apache.commons.io.IOUtils.resourceToString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
-class RecordJarResourceIT {
+class RecordJarResourceIT extends IntegrationTestBase {
 
     private static String MULTIPART_FORM_FILE_PATH = RestApplication.VERSION_PATH + RecordJarResource.RESOURCE_PATH + "multipart/file";
     private static String MULTIPART_FORM_TEXT_PATH = RestApplication.VERSION_PATH + RecordJarResource.RESOURCE_PATH + "multipart/text";
     private static String TEXT_PATH = RestApplication.VERSION_PATH + RecordJarResource.RESOURCE_PATH + "text";
-
-    @BeforeAll
-    static void beforeAll() {
-        enableLoggingOfRequestAndResponseIfValidationFails();
-    }
 
     @Test
     void testUploadMultipartFile() throws IOException {
@@ -48,19 +41,18 @@ class RecordJarResourceIT {
     }
 
     @Test
-    @Disabled
-    void testUploadMultipartFileLarge() {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("language-subtag-registry.rj");
+    void testUploadMultipartFileLarge() throws IOException {
+        String schema = super.generateJsonSchema(new TypeReference<List<Map<String, String>>>() {});
+        byte[] bytes = resourceToByteArray("taoup-rj-example.rj", getClass().getClassLoader());
         Response response = given()
-                .multiPart("file", "language-subtag-registry.rj", stream)
+                .multiPart("file", "language-subtag-registry.rj", bytes)
                 .multiPart("encoding", "UTF-8")
                 .expect()
-                .log().all()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
+                .body(matchesJsonSchema(schema))
                 .when()
                 .post(MULTIPART_FORM_FILE_PATH);
-
 
         response.asString();
     }

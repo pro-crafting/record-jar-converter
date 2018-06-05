@@ -31,6 +31,9 @@
 
         <!-- Dependency Versions -->
         <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
+        <!-- Update this version when updating wildfly swarm -->
+        <version.jackson>2.8.9</version.jackson>
+
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
         <version.commons-io>2.6</version.commons-io>
         <version.guava>25.0-jre</version.guava>
@@ -52,18 +55,20 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Internal dependencies -->
+            <dependency>
+                <groupId>com.pro-crafting.tools</groupId>
+                <artifactId>record-jar-converter-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- External dependencies -->
             <dependency>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>bom-all</artifactId>
                 <version>${version.wildfly.swarm}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>com.pro-crafting.tools</groupId>
-                <artifactId>record-jar-converter-service</artifactId>
-                <version>${project.version}</version>
             </dependency>
 
             <dependency>
@@ -85,13 +90,6 @@
             </dependency>
 
             <!-- Test dependencies -->
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>${version.rest-assured}</version>
-                <scope>test</scope>
-            </dependency>
-
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
@@ -117,6 +115,27 @@
                 <groupId>org.jboss.weld</groupId>
                 <artifactId>weld-junit5</artifactId>
                 <version>${version.weld-junit5}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jsonSchema</artifactId>
+                <version>${version.jackson}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${version.rest-assured}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>${version.rest-assured}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
