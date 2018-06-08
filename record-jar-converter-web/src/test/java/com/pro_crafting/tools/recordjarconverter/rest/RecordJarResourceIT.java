@@ -1,5 +1,6 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pro_crafting.tools.recordjarconverter.IntegrationTestBase;
 import com.pro_crafting.tools.recordjarconverter.RestApplication;
@@ -43,7 +44,7 @@ class RecordJarResourceIT extends IntegrationTestBase {
     @Test
     void testUploadMultipartFileLarge() throws IOException {
         String schema = super.generateJsonSchema(new TypeReference<List<Map<String, String>>>() {});
-        byte[] bytes = resourceToByteArray("taoup-rj-example.rj", getClass().getClassLoader());
+        byte[] bytes = resourceToByteArray("language-subtag-registry.rj", getClass().getClassLoader());
         Response response = given()
                 .multiPart("file", "language-subtag-registry.rj", bytes)
                 .multiPart("encoding", "UTF-8")
@@ -53,8 +54,6 @@ class RecordJarResourceIT extends IntegrationTestBase {
                 .body(matchesJsonSchema(schema))
                 .when()
                 .post(MULTIPART_FORM_FILE_PATH);
-
-        response.asString();
     }
 
     @Test
@@ -74,6 +73,20 @@ class RecordJarResourceIT extends IntegrationTestBase {
     }
 
     @Test
+    void testUploadMultipartTextLarge() throws IOException {
+        String schema = super.generateJsonSchema(new TypeReference<List<Map<String, String>>>() {});
+        String body = resourceToString("language-subtag-registry.rj", Charset.forName("UTF-8"), getClass().getClassLoader());
+        Response response = given()
+                .multiPart("text", body)
+                .multiPart("encoding", "UTF-8")
+                .expect()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .when()
+                .post(MULTIPART_FORM_TEXT_PATH);
+    }
+
+    @Test
     void testUploadText() throws IOException {
         String body = resourceToString("taoup-rj-example.rj", Charset.forName("UTF-8"), getClass().getClassLoader());
         String expected = resourceToString("taoup-rj-converted.json", Charset.forName("UTF-8"), getClass().getClassLoader());
@@ -85,7 +98,19 @@ class RecordJarResourceIT extends IntegrationTestBase {
                 .contentType(ContentType.JSON)
                 .when()
                 .post(TEXT_PATH);
+    }
 
-        assertEquals(expected, response.asString());
+    @Test
+    void testUploadTextLarge() throws IOException {
+        String schema = super.generateJsonSchema(new TypeReference<List<Map<String, String>>>() {});
+        String body = resourceToString("language-subtag-registry.rj", Charset.forName("UTF-8"), getClass().getClassLoader());
+        Response response = given()
+                .body(body)
+                .queryParam("encoding", "UTF-8")
+                .expect()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .when()
+                .post(TEXT_PATH);
     }
 }

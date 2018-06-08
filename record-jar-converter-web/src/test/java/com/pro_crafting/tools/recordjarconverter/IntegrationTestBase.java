@@ -18,6 +18,9 @@ import java.util.Map;
 import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfValidationFails;
 
 public abstract class IntegrationTestBase {
+    private ObjectMapper mapper = new ObjectMapper();
+    private JsonSchemaGenerator generator = new JsonSchemaGenerator(mapper);
+
     @BeforeAll
     static void beforeAll() {
         enableLoggingOfRequestAndResponseIfValidationFails();
@@ -32,8 +35,6 @@ public abstract class IntegrationTestBase {
     }
 
     protected String generateJsonSchema(Type type) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonSchemaGenerator generator = new JsonSchemaGenerator(mapper);
 
         JsonSchema jsonSchema = generator.generateSchema(mapper.getTypeFactory().constructType(type));
 
