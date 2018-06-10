@@ -82,6 +82,7 @@ class RecordJarResourceIT extends IntegrationTestBase {
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
+                .body(matchesJsonSchema(schema))
                 .when()
                 .post(MULTIPART_FORM_TEXT_PATH);
     }
@@ -110,6 +111,7 @@ class RecordJarResourceIT extends IntegrationTestBase {
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
+                .body(matchesJsonSchema(schema))
                 .when()
                 .post(TEXT_PATH);
     }
