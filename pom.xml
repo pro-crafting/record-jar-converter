@@ -20,6 +20,7 @@
 
     <properties>
         <!-- Settings -->
+        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
         <debugPort>5005</debugPort>
         <swarm.bind.address>0.0.0.0</swarm.bind.address>
         <maven.compiler.source>1.8</maven.compiler.source>
