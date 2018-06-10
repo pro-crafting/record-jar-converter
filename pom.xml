@@ -289,7 +289,7 @@
                                 <execution>
                                     <id>start</id>
                                     <goals>
-                                        <goal>start</goal>
+                                        <goal>run</goal>
                                     </goals>
                                     <phase>pre-integration-test</phase>
                                 </execution>
