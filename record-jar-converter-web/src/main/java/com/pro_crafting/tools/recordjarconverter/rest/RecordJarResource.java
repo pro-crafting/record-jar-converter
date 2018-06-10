@@ -26,9 +26,8 @@ import java.util.Map;
 
 @Api(value = "Record Jar API")
 @Path(RecordJarResource.RESOURCE_PATH)
-@Health
 @RequestScoped
-public class RecordJarResource implements HealthCheck {
+public class RecordJarResource {
     public static final String RESOURCE_PATH = "record/jar/";
 
     @Inject
@@ -95,10 +94,5 @@ public class RecordJarResource implements HealthCheck {
 
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(recordJarText.getBytes(Charset.forName(encoding))), encoding);
         return Response.ok().entity(records).build();
-    }
-
-    @Override
-    public HealthCheckResponse call() {
-        return HealthCheckResponse.named(RestApplication.VERSION_PATH + RESOURCE_PATH).up().build();
     }
 }
