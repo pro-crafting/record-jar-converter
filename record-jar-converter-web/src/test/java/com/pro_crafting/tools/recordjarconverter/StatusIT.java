@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.*;
 
 import static io.restassured.RestAssured.get;
 
-public class StatusIT {
+public class StatusIT extends IntegrationTestBase {
     @Test
     void testOutcomeUp() {
         get("/health")

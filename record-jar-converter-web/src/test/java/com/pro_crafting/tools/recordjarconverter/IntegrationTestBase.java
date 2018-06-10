@@ -24,7 +24,8 @@ public abstract class IntegrationTestBase {
 
     @BeforeAll
     static void beforeAll() {
-        RestAssured.baseURI = "http://127.0.0.1";
+        RestAssured.baseURI = "http://127.0.0.1/";
+        RestAssured.port = 8080;
         enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
