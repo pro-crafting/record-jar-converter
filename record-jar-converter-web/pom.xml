@@ -152,7 +152,7 @@
                                             <http>
                                                 <url>http://127.0.0.1:8080/health</url>
                                                 <method>GET</method>
-                                                <status>200...599</status>
+                                                <status>200</status>
                                             </http>
                                             <time>50000</time>
                                         </wait>
