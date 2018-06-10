@@ -6,12 +6,20 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @Health
 @ApplicationScoped
 public class RecordJarHealth implements HealthCheck {
+
+    @Inject
+    private RecordJarResource resource;
+
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.named(RestApplication.VERSION_PATH + RecordJarResource.RESOURCE_PATH).up().build();
+        return HealthCheckResponse
+                .named(RestApplication.VERSION_PATH + RecordJarResource.RESOURCE_PATH)
+                .state(resource != null)
+                .build();
     }
 }
