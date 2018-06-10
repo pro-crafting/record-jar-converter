@@ -1,12 +1,18 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.pro_crafting.tools.recordjarconverter.RestApplication;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarFile;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarText;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import io.swagger.annotations.*;
+import org.eclipse.microprofile.health.Health;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +26,9 @@ import java.util.Map;
 
 @Api(value = "Record Jar API")
 @Path(RecordJarResource.RESOURCE_PATH)
-public class RecordJarResource {
+@Health
+@RequestScoped
+public class RecordJarResource implements HealthCheck {
     public static final String RESOURCE_PATH = "record/jar/";
 
     @Inject
@@ -87,5 +95,10 @@ public class RecordJarResource {
 
         List<Map<String, String>> records = service.convert(new ByteArrayInputStream(recordJarText.getBytes(Charset.forName(encoding))), encoding);
         return Response.ok().entity(records).build();
+    }
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.named(RestApplication.VERSION_PATH + RESOURCE_PATH).up().build();
     }
 }

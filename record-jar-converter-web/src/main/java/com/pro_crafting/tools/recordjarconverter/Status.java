@@ -5,6 +5,7 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @Health
 @ApplicationScoped
