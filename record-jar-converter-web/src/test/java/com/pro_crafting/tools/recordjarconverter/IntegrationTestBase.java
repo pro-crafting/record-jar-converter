@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import io.restassured.RestAssured;
 import org.jboss.weld.junit5.EnableWeld;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -23,6 +24,7 @@ public abstract class IntegrationTestBase {
 
     @BeforeAll
     static void beforeAll() {
+        RestAssured.baseURI = "http://127.0.0.1";
         enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
