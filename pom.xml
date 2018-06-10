@@ -285,6 +285,9 @@
                         <plugin>
                             <groupId>io.fabric8</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
+                            <configuration>
+                                <showLogs>true</showLogs>
+                            </configuration>
                             <executions>
                                 <execution>
                                     <id>start</id>
