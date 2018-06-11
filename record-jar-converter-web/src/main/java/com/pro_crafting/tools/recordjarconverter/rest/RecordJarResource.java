@@ -1,12 +1,18 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.pro_crafting.tools.recordjarconverter.RestApplication;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarFile;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarText;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import io.swagger.annotations.*;
+import org.eclipse.microprofile.health.Health;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +26,7 @@ import java.util.Map;
 
 @Api(value = "Record Jar API")
 @Path(RecordJarResource.RESOURCE_PATH)
+@RequestScoped
 public class RecordJarResource {
     public static final String RESOURCE_PATH = "record/jar/";
 
@@ -39,7 +46,7 @@ public class RecordJarResource {
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
             )
     })
-    public Response upload(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
+    public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
         List<Map<String, String>> records = service.convert(new FileInputStream(recordJarFile.getFile()), recordJarFile.getEncoding());
         return Response.ok().entity(records).build();
     }
@@ -57,7 +64,7 @@ public class RecordJarResource {
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
             )
     })
-    public Response uploadFormText(@ApiParam @MultipartForm RecordJarText recordJarText) {
+    public Response uploadMultipartText(@ApiParam @MultipartForm RecordJarText recordJarText) {
         if (recordJarText.getEncoding() == null) {
             recordJarText.setEncoding("UTF-8");
         }

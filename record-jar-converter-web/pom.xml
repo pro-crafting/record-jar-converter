@@ -12,7 +12,6 @@
 
     <properties>
         <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
-        <bla>${project.build.outputDirectory}</bla>
     </properties>
 
     <build>
@@ -99,6 +98,38 @@
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>microprofile-health</artifactId>
         </dependency>
+
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-junit5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jsonSchema</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -112,11 +143,20 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>postremus/${project.artifactId}</name>
+                                    <name>${docker.repository}/${project.artifactId}</name>
                                     <run>
                                         <ports>
-                                            <port>8080:8080</port>
+                                            <port>${docker.published.port}:8080</port>
                                         </ports>
+                                        <wait>
+                                            <http>
+                                                <url>http://127.0.0.1:8080/health</url>
+                                                <method>GET</method>
+                                                <status>200</status>
+                                            </http>
+                                            <time>50000</time>
+                                            <healthy>true</healthy>
+                                        </wait>
                                     </run>
                                     <build>
                                         <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
