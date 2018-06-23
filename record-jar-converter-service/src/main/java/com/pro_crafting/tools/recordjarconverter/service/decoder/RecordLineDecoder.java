@@ -1,52 +1,61 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
-import com.pro_crafting.tools.recordjarconverter.service.Violation;
+import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
 @Dependent
-public class RecordLineDecoder implements LineByLineDecoder<Map<String, String>> {
+@Named(Names.RECORD)
+public class RecordLineDecoder implements LineByLineDecoder<Record> {
     public static final String RECORD_SEPERATOR = "%%";
 
     @Inject
+    @Named(Names.FIELD)
     private LineByLineDecoder<Map.Entry<String, String>> decoder;
+
+    @Inject
+    @Named(Names.COMMENT)
+    private LineByLineDecoder<List<String>> commentDecoder;
 
     @Inject
     private LineByLineDecoderEngine engine;
 
-    private final Map<String, String> record = new HashMap<>();
-    private final List<Violation> violations = new ArrayList<>();
+    private final Record record = new Record();
 
     @Override
     public void parseLine(String line) {
         Map.Entry<String, String> field = engine.chainNextDecoder(decoder, line);
         if (field != null) {
-            this.record.put(field.getKey(), field.getValue());
+            this.record.getFields().put(field.getKey(), field.getValue());
+        }
+
+        List<String> comments = engine.chainNextDecoder(commentDecoder, line);
+        if (comments != null) {
+            this.record.setComments(comments);
         }
     }
 
     @Override
     public boolean caresAboutLine(String line) {
-        return !line.contains(RECORD_SEPERATOR);
+        return  (record.isEmpty() && line.startsWith(RECORD_SEPERATOR)) || !line.startsWith(RECORD_SEPERATOR);
     }
 
     @Override
-    public Map<String, String> gatherData() {
+    public Record gatherData() {
         if (!hasData()) {
             return null;
         }
 
-        Map<String, String> gatheredRecordLines = new HashMap<>(record);
+        Record gatheredRecordLines = Record.of(record);
         Map.Entry<String, String> field = decoder.gatherData();
         if (field == null) {
             return gatheredRecordLines;
         }
-        gatheredRecordLines.put(field.getKey(), field.getValue());
+        gatheredRecordLines.getFields().put(field.getKey(), field.getValue());
         return gatheredRecordLines;
     }
 
@@ -54,7 +63,6 @@ public class RecordLineDecoder implements LineByLineDecoder<Map<String, String>>
     public void reset() {
         this.decoder.reset();
         this.record.clear();
-        this.violations.clear();
     }
 
     @Override

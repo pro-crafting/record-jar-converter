@@ -8,12 +8,14 @@ import com.pro_crafting.tools.recordjarconverter.service.Violation;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Dependent
+@Named(Names.FIELD)
 public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, String>> {
     public static final String FIELD_SEPERATOR = ":";
     public static final String LINE_CONTINUATION = "\\";
@@ -75,9 +77,11 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
 
     @Override
     public Map.Entry<String, String> gatherData() {
-        if (Strings.isNullOrEmpty(this.name)) {
-            context.addViolation(this.name, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
-        } else if (Strings.isNullOrEmpty(this.body)) {
+        if (!hasData()) {
+            return null;
+        }
+
+        if (Strings.isNullOrEmpty(this.body)) {
             /*
                Note that entirely blank continuation lines are not permitted.  That
                is, this record is illegal, since the field-body [..] would
@@ -86,7 +90,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             context.addViolation(this.name, ErrorCode.ERROR_FIELD_EMPTY_BODY);
         }
 
-        return hasData() ? new AbstractMap.SimpleEntry<>(name, body) : null;
+        return new AbstractMap.SimpleEntry<>(name, body);
     }
 
     @Override

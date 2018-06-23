@@ -3,6 +3,7 @@ package com.pro_crafting.tools.recordjarconverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.restassured.RestAssured;
@@ -35,6 +36,7 @@ public abstract class IntegrationTestBase {
     }
 
     protected String generateJsonSchema(Type type) throws JsonProcessingException {
+        SimpleModule module = new SimpleModule();
 
         JsonSchema jsonSchema = generator.generateSchema(mapper.getTypeFactory().constructType(type));
 
