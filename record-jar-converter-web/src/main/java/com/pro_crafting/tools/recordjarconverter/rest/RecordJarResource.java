@@ -46,7 +46,7 @@ public class RecordJarResource {
     })
     public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
         List<Record> records = service.convert(new FileInputStream(recordJarFile.getFile()), recordJarFile.getEncoding());
-        return Response.ok().entity(records).build();
+        return Response.ok().entity(map(records)).build();
     }
 
     @POST
