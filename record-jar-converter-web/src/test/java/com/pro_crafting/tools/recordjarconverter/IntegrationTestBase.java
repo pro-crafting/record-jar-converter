@@ -3,6 +3,7 @@ package com.pro_crafting.tools.recordjarconverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.restassured.RestAssured;
@@ -21,8 +22,8 @@ public abstract class IntegrationTestBase {
     @BeforeAll
     static void beforeAll() {
 
-        RestAssured.baseURI = System.getProperties().getProperty("it.baseuri");
-        RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port"));
+        RestAssured.baseURI = System.getProperties().getProperty("it.baseuri", "http://127.0.0.1/");
+        RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port", "8080"));
         enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
@@ -35,6 +36,7 @@ public abstract class IntegrationTestBase {
     }
 
     protected String generateJsonSchema(Type type) throws JsonProcessingException {
+        SimpleModule module = new SimpleModule();
 
         JsonSchema jsonSchema = generator.generateSchema(mapper.getTypeFactory().constructType(type));
 

@@ -1,29 +1,32 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
 import com.google.common.collect.Lists;
+import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Dependent
-public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Map<String, String>>> {
+@Named(Names.RECORD_SEQUENCE)
+public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Record>> {
     public static final String RECORD_SEPERATOR = "%%";
 
     @Inject
-    private LineByLineDecoder<Map<String, String>> decoder;
+    @Named(Names.RECORD)
+    private LineByLineDecoder<Record> decoder;
 
     @Inject
     private LineByLineDecoderEngine engine;
 
-    private List<Map<String, String>> records = new ArrayList<>();
+    private List<Record> records = new ArrayList<>();
 
 
     @Override
     public void parseLine(String line) {
-        Map<String, String> record = engine.chainNextDecoder(decoder, line);
+        Record record = engine.chainNextDecoder(decoder, line);
         if (record != null) {
             this.records.add(record);
         }
@@ -31,17 +34,17 @@ public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Map<Str
 
     @Override
     public boolean caresAboutLine(String line) {
-        return line.equalsIgnoreCase(RECORD_SEPERATOR) || decoder.caresAboutLine(line);
+        return line.startsWith(RECORD_SEPERATOR) || decoder.caresAboutLine(line);
     }
 
     @Override
-    public List<Map<String, String>> gatherData() {
+    public List<Record> gatherData() {
         if (!hasData()) {
             return null;
         }
 
-        List<Map<String, String>> gatheredData = Lists.newArrayList(this.records);
-        Map<String, String> record = decoder.gatherData();
+        List<Record> gatheredData = Lists.newArrayList(this.records);
+        Record record = decoder.gatherData();
         if (record == null) {
             return gatheredData;
         }

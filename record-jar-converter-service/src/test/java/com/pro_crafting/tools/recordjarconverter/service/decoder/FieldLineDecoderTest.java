@@ -53,13 +53,13 @@ class FieldLineDecoderTest {
 
         assertTrue(decoder.caresAboutLine(line));
         assertTrue(decoder.caresAboutLine(line2));
-        assertFalse(decoder.caresAboutLine(failingLine));
+        assertTrue(decoder.caresAboutLine(failingLine));
     }
 
     @Test
     void testGetViolations() {
         String failingLine = "Sol System";
-        assertFalse(decoder.caresAboutLine(failingLine));
+        assertTrue(decoder.caresAboutLine(failingLine));
         assertTrue(context.getViolations().isEmpty());
     }
 }

@@ -17,16 +17,15 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Api(value = "Record Jar API")
-@Path(RecordJarResource.RESOURCE_PATH)
+@Path(RecordJarFullResource.RESOURCE_PATH)
 @RequestScoped
-public class RecordJarResource {
-    public static final String RESOURCE_PATH = "record/jar/";
+public class RecordJarFullResource {
+    public static final String RESOURCE_PATH = "record/jar/full/";
 
     @Inject
     private RecordJarService service;
@@ -35,7 +34,7 @@ public class RecordJarResource {
     @Path("multipart/file")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Converts a record-jar formatted file to JSON. Convenience method for file based conversion.", response = Map.class, responseContainer = "List")
+    @ApiOperation(value = "Converts a record-jar formatted file to JSON. Comments are included. Convenience method for file based conversion.", response = Map.class, responseContainer = "List")
     @ApiResponses({
             @ApiResponse(
                     code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
@@ -46,14 +45,14 @@ public class RecordJarResource {
     })
     public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
         List<Record> records = service.convert(new FileInputStream(recordJarFile.getFile()), recordJarFile.getEncoding());
-        return Response.ok().entity(map(records)).build();
+        return Response.ok().entity(records).build();
     }
 
     @POST
     @Path("multipart/text")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Convenience method for easy converting of text from html forms.", response = Map.class, responseContainer = "List")
+    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Comments are included. Convenience method for easy converting of text from html forms.", response = Map.class, responseContainer = "List")
     @ApiResponses({
             @ApiResponse(
                     code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
@@ -68,14 +67,14 @@ public class RecordJarResource {
         }
 
         List<Record> records = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
-        return Response.ok().entity(map(records)).build();
+        return Response.ok().entity(records).build();
     }
 
     @POST
     @Path("text")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Convenience method for easy converting of text.")
+    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Comments are included. Convenience method for easy converting of text.")
     @ApiResponses({
             @ApiResponse(
                     code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
@@ -91,10 +90,6 @@ public class RecordJarResource {
         }
 
         List<Record> records = service.convert(new ByteArrayInputStream(recordJarText.getBytes(Charset.forName(encoding))), encoding);
-        return Response.ok().entity(map(records)).build();
-    }
-
-    private List<Map<String, String>> map(List<Record> records) {
-        return records.stream().map(Record::getFields).collect(Collectors.toList());
+        return Response.ok().entity(records).build();
     }
 }

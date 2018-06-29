@@ -8,12 +8,14 @@ import com.pro_crafting.tools.recordjarconverter.service.Violation;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Dependent
+@Named(Names.FIELD)
 public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, String>> {
     public static final String FIELD_SEPERATOR = ":";
     public static final String LINE_CONTINUATION = "\\";
@@ -70,7 +72,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
     public boolean caresAboutLine(String line) {
         // Successive lines in the same field-body begin with one or more whitespace characters.
         // This decoder should be reset before it is called with a new field: body pair
-        return line != null && ((line.contains(":") && name == null) || line.startsWith(" "));
+        return name == null || line.startsWith(" ");
     }
 
     @Override
@@ -86,7 +88,11 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             context.addViolation(this.name, ErrorCode.ERROR_FIELD_EMPTY_BODY);
         }
 
-        return hasData() ? new AbstractMap.SimpleEntry<>(name, body) : null;
+        if (!hasData()) {
+            return null;
+        }
+
+        return new AbstractMap.SimpleEntry<>(name, body);
     }
 
     @Override
