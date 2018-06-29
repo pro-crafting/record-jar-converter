@@ -41,7 +41,7 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
 
     @Override
     public boolean caresAboutLine(String line) {
-        return  (record.isEmpty() && line.startsWith(RECORD_SEPERATOR)) || !line.startsWith(RECORD_SEPERATOR);
+        return  (record.isEmpty() && line.startsWith(CommentLineDecoder.COMMENT_START)) || !line.startsWith(RECORD_SEPERATOR);
     }
 
     @Override

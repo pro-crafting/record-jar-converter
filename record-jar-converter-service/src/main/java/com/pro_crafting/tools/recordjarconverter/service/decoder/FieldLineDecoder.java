@@ -72,22 +72,24 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
     public boolean caresAboutLine(String line) {
         // Successive lines in the same field-body begin with one or more whitespace characters.
         // This decoder should be reset before it is called with a new field: body pair
-        return line != null && ((line.contains(":") && name == null) || line.startsWith(" "));
+        return name == null || line.startsWith(" ");
     }
 
     @Override
     public Map.Entry<String, String> gatherData() {
-        if (!hasData()) {
-            return null;
-        }
-
-        if (Strings.isNullOrEmpty(this.body)) {
+        if (Strings.isNullOrEmpty(this.name)) {
+            context.addViolation(this.name, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
+        } else if (Strings.isNullOrEmpty(this.body)) {
             /*
                Note that entirely blank continuation lines are not permitted.  That
                is, this record is illegal, since the field-body [..] would
                be the empty string.
              */
             context.addViolation(this.name, ErrorCode.ERROR_FIELD_EMPTY_BODY);
+        }
+
+        if (!hasData()) {
+            return null;
         }
 
         return new AbstractMap.SimpleEntry<>(name, body);
