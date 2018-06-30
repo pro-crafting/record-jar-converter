@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import com.pro_crafting.tools.recordjarconverter.representation.json.ObjectMapperProvider;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,7 @@ import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfVali
 
 @ExtendWith(InitializeExtension.class)
 public abstract class IntegrationTestBase {
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = ObjectMapperProvider.getMapper();
     private JsonSchemaGenerator generator = new JsonSchemaGenerator(mapper);
 
     @BeforeAll

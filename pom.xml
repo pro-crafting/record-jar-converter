@@ -74,6 +74,14 @@
             </dependency>
 
             <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${version.jackson}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${version.swagger-annotations}</version>
@@ -117,13 +125,6 @@
                 <groupId>org.jboss.weld</groupId>
                 <artifactId>weld-junit5</artifactId>
                 <version>${version.weld-junit5}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-jsonSchema</artifactId>
-                <version>${version.jackson}</version>
                 <scope>test</scope>
             </dependency>
 
