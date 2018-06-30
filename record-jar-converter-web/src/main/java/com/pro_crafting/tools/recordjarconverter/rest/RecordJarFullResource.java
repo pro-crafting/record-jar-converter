@@ -1,5 +1,6 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.pro_crafting.tools.recordjarconverter.rest.model.RecordDocumentation;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarFile;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarText;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
@@ -18,8 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Api(value = "Record Jar API")
 @Path(RecordJarFullResource.RESOURCE_PATH)
@@ -34,10 +33,10 @@ public class RecordJarFullResource {
     @Path("multipart/file")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Converts a record-jar formatted file to JSON. Comments are included. Convenience method for file based conversion.", response = Map.class, responseContainer = "List")
+    @ApiOperation(value = "Converts a record-jar formatted file to JSON. Comments are included. Convenience method for file based conversion.", response = RecordDocumentation.class, responseContainer = "List")
     @ApiResponses({
             @ApiResponse(
-                    code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
+                    code = 200, response = RecordDocumentation.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
             ),
             @ApiResponse(
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
@@ -52,10 +51,10 @@ public class RecordJarFullResource {
     @Path("multipart/text")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Comments are included. Convenience method for easy converting of text from html forms.", response = Map.class, responseContainer = "List")
+    @ApiOperation(value = "Converts a record-jar formatted text to JSON. Comments are included. Convenience method for easy converting of text from html forms.", response = RecordDocumentation.class, responseContainer = "List")
     @ApiResponses({
             @ApiResponse(
-                    code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
+                    code = 200, response = RecordDocumentation.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
             ),
             @ApiResponse(
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
@@ -77,14 +76,14 @@ public class RecordJarFullResource {
     @ApiOperation(value = "Converts a record-jar formatted text to JSON. Comments are included. Convenience method for easy converting of text.")
     @ApiResponses({
             @ApiResponse(
-                    code = 200, response = Map.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
+                    code = 200, response = RecordDocumentation.class, responseContainer = "List", message = "200 OK. Parsing of the file was okay, and the resulting JSON is in the response."
             ),
             @ApiResponse(
                     code = 400, responseContainer = "Set", response = Violation.class, message = "400 Bad Request. Violations are present in the body."
             )
     })
     public Response uploadText(@ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8") @QueryParam("encoding") String encoding,
-                               @ApiParam(value = "Record Jar formatted text", required = true) String recordJarText) {
+                               @ApiParam(value = "RecordDocumentation Jar formatted text", required = true) String recordJarText) {
         if (encoding == null) {
             encoding = "UTF-8";
         }
