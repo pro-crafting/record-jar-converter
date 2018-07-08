@@ -23,7 +23,7 @@ jobs:
       script: "./cd/build.sh"
     - stage: test
       script: "./cd/ws-it.sh"
-      script: "./cd/docker-it.sh"
+    - script: "./cd/docker-it.sh"
     - stage: deploy
       script: "./cd/deploy.sh"
 
