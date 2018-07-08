@@ -11,10 +11,21 @@ cache:
 before_install:
   - export
   - chmod +x cd/before-install.sh
-  - chmod +x cd/install.sh
+  - chmod +x cd/build.sh
+  - chmod +x cd/deploy.sh
+  - chmod +x cd/ws-it.sh
+  - chmod +x cd/docker-it.sh
   - "./cd/before-install.sh"
 install: true
-script: "./cd/install.sh"
+jobs:
+  include:
+    - stage: buld
+      script: "./cd/build.sh"
+    - stage: test
+      script: "./cd/ws-it.sh"
+      script: "./cd/docker-it.sh"
+    - stage: deploy
+      script: "./cd/deploy.sh"
 
 env:
   global:
