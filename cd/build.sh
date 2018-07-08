@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-mvn install -P docker
+mvn install -DskipITs -P docker
