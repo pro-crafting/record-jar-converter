@@ -13,7 +13,7 @@ before_install:
   - chmod +x cd/before-install.sh
   - chmod +x cd/install.sh
   - "./cd/before-install.sh"
-install:
+install: true
 script: "./cd/install.sh"
 
 env:
