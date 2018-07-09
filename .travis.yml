@@ -15,12 +15,14 @@ before_install:
   - chmod +x cd/deploy.sh
   - chmod +x cd/ws-it.sh
   - chmod +x cd/docker-it.sh
+  - chmod +x cd/upload-build-context.sh
   - "./cd/before-install.sh"
 install: true
 jobs:
   include:
     - stage: buld
       script: "./cd/build.sh"
+      after_script: "./cd/upload-build-context.sh"
     - stage: test
       script: "./cd/ws-it.sh"
     - script: "./cd/docker-it.sh"
