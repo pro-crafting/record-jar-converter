@@ -10,7 +10,7 @@ cd ..
 #fi
 
 #Add public key for data@tm.pro-crafting.com
-cp cd/id_rsa_data.pub ~/.ssh/id_rsa_data.pub
-chmod 0644 ~/.ssh/id_rsa_data.pub
+cp cd/id_rsa_data.pub ~/.ssh/id_rsa.pub
+chmod 0644 ~/.ssh/id_rsa.pub
 ssh-keyscan -t rsa -H tm.pro-crafting.com >> ~/.ssh/known_hosts
 scp data@tm.pro-crafting.com:/home/data/$TRAVIS_BUILD_NUMBER/ ./
