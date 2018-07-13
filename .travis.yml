@@ -17,6 +17,7 @@ before_install:
   - chmod +x cd/ws-it.sh
   - chmod +x cd/docker-it.sh
   - chmod +x cd/upload-build-context.sh
+  - chmod +x cd/download-build-context.sh
   - "./cd/before-install.sh"
 install: true
 jobs:
