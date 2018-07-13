@@ -18,6 +18,7 @@ before_install:
   - chmod +x cd/docker-it.sh
   - chmod +x cd/upload-build-context.sh
   - chmod +x cd/download-build-context.sh
+  - chmod +x cd/after-deploy-clearup.sh
   - "./cd/before-install.sh"
 install: true
 jobs:
@@ -32,7 +33,9 @@ jobs:
     - before_script: "./cd/download-build-context.sh"
       script: "./cd/docker-it.sh"
     - stage: deploy
-      script: "./cd/deploy.sh"
+      script:
+        - "./cd/deploy.sh"
+        - "./cd/after-deploy-clearup.sh"
 
 env:
   global:
