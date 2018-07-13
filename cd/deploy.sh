@@ -4,6 +4,6 @@
 
 
     docker load -i cache/images.tar
-    docker push record-jar-converter-web
-    docker push record-jar-converter-rest-api
+    docker push postremus/record-jar-converter-web
+    docker push postremus/record-jar-converter-rest-api
 #fi
