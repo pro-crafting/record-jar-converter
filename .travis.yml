@@ -23,8 +23,9 @@ install: true
 jobs:
   include:
     - stage: buld
-      script: "./cd/build.sh"
-      after_script: "./cd/upload-build-context.sh"
+      script:
+        - "./cd/build.sh"
+        - "./cd/upload-build-context.sh"
     - stage: test
       before_script: "./cd/download-build-context.sh"
       script: "./cd/ws-it.sh"
