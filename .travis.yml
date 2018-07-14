@@ -18,14 +18,7 @@ addons:
 
 before_install:
   - export
-  - chmod +x cd/before-install.sh
-  - chmod +x cd/build.sh
-  - chmod +x cd/deploy.sh
-  - chmod +x cd/ws-it.sh
-  - chmod +x cd/docker-it.sh
-  - chmod +x cd/upload-build-context.sh
-  - chmod +x cd/download-build-context.sh
-  - chmod +x cd/after-deploy-clearup.sh
+  - chmod +x cd/*.sh
   - "./cd/before-install.sh"
 install: true
 jobs:
