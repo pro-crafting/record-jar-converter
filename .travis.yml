@@ -7,14 +7,36 @@ services:
 cache:
   directories:
   - "~/.m2/repository"
+  - "./cache"
 
 before_install:
   - export
   - chmod +x cd/before-install.sh
-  - chmod +x cd/install.sh
+  - chmod +x cd/build.sh
+  - chmod +x cd/deploy.sh
+  - chmod +x cd/ws-it.sh
+  - chmod +x cd/docker-it.sh
+  - chmod +x cd/upload-build-context.sh
+  - chmod +x cd/download-build-context.sh
+  - chmod +x cd/after-deploy-clearup.sh
   - "./cd/before-install.sh"
-install:
-  - "./cd/install.sh"
+install: true
+jobs:
+  include:
+    - stage: build
+      script:
+        - "./cd/build.sh"
+        - "./cd/upload-build-context.sh"
+    - stage: test
+      before_script: "./cd/download-build-context.sh"
+      script: "./cd/ws-it.sh"
+    - before_script: "./cd/download-build-context.sh"
+      script: "./cd/docker-it.sh"
+    - stage: deploy
+      script:
+        - "./cd/deploy.sh"
+        - "./cd/after-deploy-clearup.sh"
+
 env:
   global:
   - secure: SpXMXoT1brr1lDpZxX+A0rU6XWyu8Gm4Ma5lbX7EOgiHe5iRNiU0HVB3f4nKxG1GwBMeIbazsRNj1HZ9DUg87L4cclDznjvniUVwkwcDFmyhU7HOBsgLbUt/Sjx5fMgP7G7UDmioeMyxpi+KUUKHLq7uUdOhUSxX8mXr7O8M1oiQCWugmDf7bdhchSzcJzRy1nRDlX6g8bCHfsR9E/fS/j3Wv6SYVQ7/OFpTQANhTBSizRR2eeKuUfCecHd2P6wKwiKtu1ZJOilqDo5zk13bsfAxWcK1RKZaZ2R5+48toWmAKV5uiUIqlhIfwQmsLDSKZgamPi1LvZKFdLpu5Cu/432MgmdQtoshMJaDPBb4Y54E+GJP4enSSn62w+G5/KlnhgbMa3UGeKRLcd7yNxaDykeDaPEjZm5Q/+M25niLnoxzUt/eGPYYI6qAt9U8KpHAb8mZclPTfLqQzWldScyrxK16jKPUGsFQzq5fxUIHlgYT+3218VjBbY2D8gJ1x7nkXTQAUsvBvmGCFIi0xCeicg9HFKlHlFQJpo1LxYEFeEITTBbrwhl6c50BRThEW1XSPEFxx+iPcr9ekP0dtcWTxI2roWFHKNldRiWpUrMVrQABjJL+31SpdcaRdRq5tFNc9l/U0BYzLsymL9Bglqx0LQkEmhP36QvxM/hAWagKw8U=
