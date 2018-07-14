@@ -16,7 +16,7 @@ mkdir -p cache/record-jar-converter-rest-api/target
 mkdir -p cache/record-jar-converter-service/target
 mkdir -p cache/record-jar-converter-web/target
 
-cp -r cache/record-jar-converter-rest-api/target record-jar-converter-rest-ap
+cp -r cache/record-jar-converter-rest-api/target record-jar-converter-rest-api
 cp -r cache/record-jar-converter-service/target record-jar-converter-service
 cp -r cache/record-jar-converter-web/target record-jar-converter-web
 
