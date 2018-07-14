@@ -4,10 +4,6 @@ jdk:
 sudo: required
 services:
   - docker
-cache:
-  directories:
-  - "~/.m2/repository"
-  - "./cache"
 
 before_install:
   - export
@@ -23,16 +19,29 @@ before_install:
 install: true
 jobs:
   include:
-    - stage: buld
+    - stage: build
+      cache:
+        directories:
+        - "~/.m2/repository"
+        - "./cache"
       script:
         - "./cd/build.sh"
         - "./cd/upload-build-context.sh"
     - stage: test
+      cache:
+        directories:
+        - "./cache"
       before_script: "./cd/download-build-context.sh"
       script: "./cd/ws-it.sh"
     - before_script: "./cd/download-build-context.sh"
+      cache:
+        directories:
+        - "./cache"
       script: "./cd/docker-it.sh"
     - stage: deploy
+      cache:
+        directories:
+        - "./cache"
       script:
         - "./cd/deploy.sh"
         - "./cd/after-deploy-clearup.sh"
