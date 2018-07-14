@@ -12,7 +12,3 @@ cp -r record-jar-converter-service/target/* cache/record-jar-converter-service/t
 cp -r record-jar-converter-web/target/* cache/record-jar-converter-web/target
 
 docker save postremus/record-jar-converter-web postremus/record-jar-converter-rest-api -o cache/images.tar
-
-echo "===== debug"
-
-ls -lR cache/
