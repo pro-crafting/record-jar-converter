@@ -5,9 +5,7 @@ ls record-jar-converter-rest-api/target
 ls record-jar-converter-service/target
 ls record-jar-converter-web/target
 echo "==== 2"
-ls cache/record-jar-converter-rest-api/target
-ls cache/record-jar-converter-service/target
-ls cache/record-jar-converter-web/target
+ls -lR cache/
 echo "==== 3"
 
 mkdir record-jar-converter-rest-api/target
@@ -28,7 +26,5 @@ ls record-jar-converter-rest-api/target
 ls record-jar-converter-service/target
 ls record-jar-converter-web/target
 echo "==== 5"
-ls cache/record-jar-converter-rest-api/target
-ls cache/record-jar-converter-service/target
-ls cache/record-jar-converter-web/target
+ls -lR cache/
 echo "==== 6"
