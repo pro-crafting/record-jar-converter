@@ -36,8 +36,7 @@ jobs:
       script:
         - "./cd/deploy.sh"
         - "./cd/after-deploy-clearup.sh"
-    - cache: false
-      script: "./cd/sonar.sh"
+    - script: "./cd/sonar.sh"
 
 env:
   global:
