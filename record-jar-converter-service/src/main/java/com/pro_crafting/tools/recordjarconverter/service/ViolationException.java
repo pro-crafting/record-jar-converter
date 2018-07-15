@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ViolationException extends RuntimeException {
-    private transient final Collection<Violation> violations;
+    private final transient Collection<Violation> violations;
 
     public ViolationException() {
         this(new ArrayList<>());
