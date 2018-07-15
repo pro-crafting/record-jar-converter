@@ -67,7 +67,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             if (!line.startsWith(" ")) {
                 context.addViolation(line, ErrorCode.WARNING_SUCCESSIVE_LINE_NO_LEADING_WHITESPACE);
             }
-
+            line = CharMatcher.whitespace().trimLeadingFrom(line);
             this.body += line;
         }
     }
