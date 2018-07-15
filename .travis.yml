@@ -9,16 +9,16 @@ cache:
   - "~/.m2/repository"
   - "./cache"
 
+addons:
+  sonarcloud:
+    organization: "pro-crafting"
+    token:
+      secure: "TEq6yIdmxABygB61d2qkO1uWi1QeVj93vQB+nXxYTRDbNGPvRikgEFiysm3kAPqfikvikIFkO4ca2wuONF4G/kYllR2PUgf/cFM3nRZRT1CqqSrK1hiy57DJX7fN0rgv5nye/jcH+qCsmT86Ju0V0n3q7ZcXTfEokEXt6iTpdAvLnPbGsoBFrlaWLEgQNdBArHHKc43H2nHGOQoa6hPxqmdSndripXMeRNxqJE92mZMpBItqkrgYY9cbvs4G0rHMGgDK9GICQX/f3nGRdiv6L64u3qXYi7Gsm2wlihbKrXY0dZCPcIJ/HUH5/X6yYsLBQRxDDMcFk4zlJDUzCR0gf8DF+4PrbYT+O+2/lNqBdQGSX8ToRXG6p6rmqGtAjxk+2/Ty66a0qoG992YPaK4mwI9oe4ayRwopA2BLVLuOFYYvkkIq4sUHZdDxvhmD8Mw+RCkax+6nIyOxewn28sqMpADev29cUNzqlKGEVZVO9uGiid08k6yXvHOpK/TyZ7jyjZc0HSwlYEI700cULHB2EG52KdH7lPziVieQvDdRFgNyHXER7HoAy7q621Q7DdZTtGfLKm9LbwStNpVbtnfZH+elQZ+cc0o1aBo9KgePLNqQwjj9oGnwLABzz/tjp8QhhxxowoYl0eQuwuJqYle+AldoucmCr+ZZwzp5QMfy2lE="
+
+
 before_install:
   - export
-  - chmod +x cd/before-install.sh
-  - chmod +x cd/build.sh
-  - chmod +x cd/deploy.sh
-  - chmod +x cd/ws-it.sh
-  - chmod +x cd/docker-it.sh
-  - chmod +x cd/upload-build-context.sh
-  - chmod +x cd/download-build-context.sh
-  - chmod +x cd/after-deploy-clearup.sh
+  - chmod +x cd/*.sh
   - "./cd/before-install.sh"
 install: true
 jobs:
@@ -36,6 +36,7 @@ jobs:
       script:
         - "./cd/deploy.sh"
         - "./cd/after-deploy-clearup.sh"
+    - script: "./cd/sonar.sh"
 
 env:
   global:
