@@ -1,7 +1,9 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
 import com.pro_crafting.tools.recordjarconverter.service.DecoderContext;
+import com.pro_crafting.tools.recordjarconverter.service.ErrorCode;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
+import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.FieldLineDecoder;
 import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
@@ -10,6 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,5 +66,32 @@ class FieldLineDecoderTest {
         String failingLine = "Sol System";
         assertTrue(decoder.caresAboutLine(failingLine));
         assertTrue(context.getViolations().isEmpty());
+    }
+
+    @Test
+    void testRemovesOneLineContinuationChar() {
+        String line = "Planet: Mercury \\\\";
+        String line2 = "  is the greatest planet";
+
+        decoder.parseLine(line);
+        decoder.parseLine(line2);
+
+        Map.Entry<String, String> data = decoder.gatherData();
+
+        assertEquals("Planet", data.getKey());
+        assertEquals("Mercury \\is the greatest planet", data.getValue());
+    }
+
+    @Test
+    void testNoLeadingWhitespaceViolation() {
+        String line = "Planet: Mercury \\\\";
+        String line2 = "is the greatest planet";
+
+        decoder.parseLine(line);
+        decoder.parseLine(line2);
+
+        Set<Violation> violations = context.getViolations();
+        assertEquals(1, violations.size());
+        assertEquals(ErrorCode.WARNING_SUCCESSIVE_LINE_NO_LEADING_WHITESPACE, violations.iterator().next().getErrorCode());
     }
 }
