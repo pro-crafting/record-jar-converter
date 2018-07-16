@@ -3,7 +3,9 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.pro-crafting.tools/record-jar-converter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.pro-crafting.tools/record-jar-converter)
 [![](https://images.microbadger.com/badges/image/postremus/record-jar-converter-web.svg)](https://microbadger.com/images/postremus/record-jar-converter-web "Get your own image badge on microbadger.com")
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Wildfly Swarm based microservice for converting record jar formatted text to json.
+Currenctly, record-jar-draft-02 is supported, but not completly implemented. See the Label [draft02-compliance](https://github.com/pro-crafting/record-jar-converter/issues?q=is%3Aissue+is%3Aopen+label%3Adraft02-compliance) for missing bits.
 
 ## Installation
 Use the official docker image:
