@@ -1,7 +1,5 @@
 package com.pro_crafting.tools.recordjarconverter.rest.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 

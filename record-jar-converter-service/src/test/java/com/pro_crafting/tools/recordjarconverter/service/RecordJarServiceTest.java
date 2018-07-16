@@ -156,4 +156,18 @@ public class RecordJarServiceTest {
         assertEquals(5, records.get(1).getFields().size());
         assertEquals(5, records.get(2).getFields().size());
     }
+
+    @Test
+    void testRemovesOneLineContinuationChar() {
+        String line = String.join(System.lineSeparator(),
+                "Planet: Mercury \\\\",
+                "  is the greatest planet");
+
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
+
+        assertEquals(1, records.size());
+        assertEquals(1, records.get(0).getFields().size());
+        assertTrue(records.get(0).getFields().containsKey("Planet"));
+        assertEquals("Mercury \\is the greatest planet", records.get(0).getFields().get("Planet"));
+    }
 }

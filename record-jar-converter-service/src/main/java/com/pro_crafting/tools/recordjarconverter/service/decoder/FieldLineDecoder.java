@@ -29,9 +29,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
 
     @Override
     public void parseLine(String line) {
-        //TODO: Line continuations have to start with a whitespace
-        //validate that
-        line = line.trim();
+        line = CharMatcher.whitespace().trimTrailingFrom(line);
         if (line.endsWith(LINE_CONTINUATION)) {
             line = line.substring(0, line.length() - 1);
         }
@@ -49,7 +47,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
                horizontal whitespace (tab or space characters).  The normal
                convention is one space on each side.
              */
-            tokens[0] = CharMatcher.whitespace().trimTrailingFrom(tokens[0]);
+            tokens[0] = tokens[0].trim();
             tokens[1] = CharMatcher.whitespace().trimLeadingFrom(tokens[1]);
 
             // Whitespace characters and colon (":", %x3A) are not permitted in a field-name.
@@ -64,6 +62,12 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
         }
 
         if (this.body != null) {
+            // Successive lines in the same field-body begin with one or more
+            // whitespace characters.
+            if (!line.startsWith(" ")) {
+                context.addViolation(line, ErrorCode.WARNING_SUCCESSIVE_LINE_NO_LEADING_WHITESPACE);
+            }
+            line = CharMatcher.whitespace().trimLeadingFrom(line);
             this.body += line;
         }
     }
