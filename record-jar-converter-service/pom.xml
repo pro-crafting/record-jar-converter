@@ -17,9 +17,9 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- WildFly Swarm Fractions -->
+        <!-- Thorntail Fractions -->
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
+            <groupId>io.thorntail</groupId>
             <artifactId>cdi</artifactId>
         </dependency>
         <!-- Other dependencies -->
