@@ -10,7 +10,7 @@
     <groupId>com.pro-crafting.tools</groupId>
     <artifactId>record-jar-converter</artifactId>
 
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0</version>
     <modules>
         <module>record-jar-converter-service</module>
         <module>record-jar-converter-web</module>
@@ -371,6 +371,6 @@
         <connection>scm:git:git@github.com:Postremus/record-jar-converter.git</connection>
         <url>https://github.com/Postremus/record-jar-converter</url>
         <developerConnection>scm:git:git@github.com:Postremus/record-jar-converter.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>record-jar-converter-1.3.0</tag>
     </scm>
 </project>
