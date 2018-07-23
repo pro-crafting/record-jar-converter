@@ -3,7 +3,7 @@ if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; the
     mvn -Dmaven.test.skip=true deploy -P sign,!docker-it,!ws-it -o
 
     docker login --username $DOCKER_IO_USERNAME --password $DOCKER_IO_TOKEN
-    docker load -i cache/images.tar
+    docker load -i cache/$TRAVIS_BUILD_NUMBER/images.tar
     docker push postremus/record-jar-converter-web
     docker push postremus/record-jar-converter-rest-api
 fi
