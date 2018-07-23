@@ -8,18 +8,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>record-jar-converter-rest-api</artifactId>
-    <packaging>war</packaging>
+    <packaging>rar</packaging>
 
     <properties>
         <version.swagger-ui>3.17.4</version.swagger-ui>
+
+        <jboss.web.context>record-jar-converter-rest-api</jboss.web.context>
+        <output.directory>${project.artifactId}-${project.version}</output.directory>
     </properties>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -63,7 +62,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${output.directory}/</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>../record-jar-converter-web/target</directory>
@@ -114,14 +113,11 @@
                                         <assembly>
                                             <basedir>/</basedir>
                                             <inline>
-                                                <files>
-                                                    <file>
-                                                        <source>${project.build.directory}/${file.hollow-jar}</source>
-                                                    </file>
-                                                    <file>
-                                                        <source>${project.build.directory}/${file.hollow-app}</source>
-                                                    </file>
-                                                </files>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <directory>./target/${output.directory}/</directory>
+                                                    </fileSet>
+                                                </fileSets>
                                             </inline>
                                         </assembly>
 
