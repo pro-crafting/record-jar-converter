@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-mvn install -DskipITs -P docker,build-extras,!ws-it
+if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
+    mvn deploy -P sign,docker,docker-it,!ws-it,build-extras
+else
+    mvn install -P docker,docker-it,!ws-it,build-extras
+fi
