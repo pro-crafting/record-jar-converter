@@ -7,7 +7,6 @@ services:
 cache:
   directories:
   - "~/.m2/repository"
-  - "./cache"
 
 addons:
   sonarcloud:
@@ -26,16 +25,8 @@ jobs:
     - stage: build
       script:
         - "./cd/build.sh"
-        - "./cd/upload-build-context.sh"
-    - stage: test
-      before_script: "./cd/download-build-context.sh"
+    - stage: quality
       script: "./cd/ws-it.sh"
-    - before_script: "./cd/download-build-context.sh"
-      script: "./cd/docker-it.sh"
-    - stage: deploy
-      script:
-        - "./cd/deploy.sh"
-        - "./cd/after-deploy-clearup.sh"
     - script: "./cd/sonar.sh"
 
 env:
