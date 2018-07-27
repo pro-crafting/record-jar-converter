@@ -11,7 +11,7 @@
     <packaging>rar</packaging>
 
     <properties>
-        <version.swagger-ui>3.17.4</version.swagger-ui>
+        <version.swagger-ui>3.17.5</version.swagger-ui>
 
         <jboss.web.context>record-jar-converter-rest-api</jboss.web.context>
         <output.directory>${project.artifactId}-${project.version}</output.directory>
