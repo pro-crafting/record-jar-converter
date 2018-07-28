@@ -35,29 +35,32 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
         }
 
         if (this.name == null) {
-            String[] tokens = line.split(FIELD_SEPERATOR);
+            int sepPosition = line.indexOf(FIELD_SEPERATOR);
 
-            if (tokens.length < 2) {
+            if (sepPosition == -1) {
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
                 return;
             }
+
+            String name = line.substring(0, sepPosition);
+            String body = line.substring(sepPosition + 1);
 
             /*
                The separator MAY be surrounded on either side by any amount of
                horizontal whitespace (tab or space characters).  The normal
                convention is one space on each side.
              */
-            tokens[0] = tokens[0].trim();
-            tokens[1] = CharMatcher.whitespace().trimLeadingFrom(tokens[1]);
+            name = name.trim();
+            body = CharMatcher.whitespace().trimLeadingFrom(body);
 
             // Whitespace characters and colon (":", %x3A) are not permitted in a field-name.
-            if (tokens[0].contains(" ")) {
+            if (name.contains(" ")) {
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NAME_INVALID);
                 return;
             }
 
-            this.name = tokens[0];
-            this.body = tokens[1];
+            this.name = name;
+            this.body = body;
             return;
         }
 

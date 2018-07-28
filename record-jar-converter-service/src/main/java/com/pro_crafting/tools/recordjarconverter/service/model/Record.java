@@ -39,8 +39,8 @@ public class Record {
 
     public static Record of(Map<String, String> fields, List<String> comments) {
         Record record = new Record();
-        record.fields = Maps.newHashMap(fields);
-        record.comments = Lists.newArrayList(comments);
+        record.fields = new HashMap<>(fields);
+        record.comments = new ArrayList<>(comments);
         return record;
     }
 
