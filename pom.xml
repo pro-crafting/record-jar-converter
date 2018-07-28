@@ -24,16 +24,16 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <file.hollow-jar>${project.build.finalName}-hollow-thorntail.jar</file.hollow-jar>
+        <file.hollow-jar>${project.build.finalName}-hollow-swarm.jar</file.hollow-jar>
         <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
         <docker.repository>postremus</docker.repository>
         <debugPort>5005</debugPort>
-        <thorntail.http.port>8080</thorntail.http.port>
+        <swarm.http.port>8080</swarm.http.port>
         <docker.published.port>8081</docker.published.port>
 
         <!-- Dependency Versions -->
-        <version.thorntail>2.0.0.Final</version.thorntail>
-        <!-- Update this version when updating thorntail -->
+        <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
+        <!-- Update this version when updating wildfly swarm -->
         <version.jackson>2.8.9</version.jackson>
 
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
@@ -68,9 +68,9 @@
 
             <!-- External dependencies -->
             <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom</artifactId>
-                <version>${version.thorntail}</version>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom-all</artifactId>
+                <version>${version.wildfly.swarm}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -150,15 +150,15 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>thorntail-maven-plugin</artifactId>
-                    <version>${version.thorntail}</version>
+                    <groupId>org.wildfly.swarm</groupId>
+                    <artifactId>wildfly-swarm-plugin</artifactId>
+                    <version>${version.wildfly.swarm}</version>
                     <configuration>
                         <hollow>true</hollow>
                         <properties>
                             <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
-                            <thorntail.bind.address>0.0.0.0</thorntail.bind.address>
-                            <thorntail.http.port>${thorntail.http.port}</thorntail.http.port>
+                            <swarm.bind.address>0.0.0.0</swarm.bind.address>
+                            <swarm.http.port>${swarm.http.port}</swarm.http.port>
                         </properties>
                     </configuration>
                     <executions>
@@ -249,12 +249,13 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>io.thorntail</groupId>
-                            <artifactId>thorntail-maven-plugin</artifactId>
+                            <groupId>org.wildfly.swarm</groupId>
+                            <artifactId>wildfly-swarm-plugin</artifactId>
+                            <version>${version.wildfly.swarm}</version>
                             <configuration>
                                 <debugPort>${debugPort}</debugPort>
                                 <properties>
-                                    <thorntail.debug.port>${debugPort}</thorntail.debug.port>
+                                    <swarm.debug.port>${debugPort}</swarm.debug.port>
                                 </properties>
                                 <hollow>true</hollow>
                             </configuration>
@@ -272,8 +273,8 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>io.thorntail</groupId>
-                            <artifactId>thorntail-maven-plugin</artifactId>
+                            <groupId>org.wildfly.swarm</groupId>
+                            <artifactId>wildfly-swarm-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>start</id>
@@ -298,7 +299,7 @@
                                 <systemProperties>
                                     <sleep.before>0</sleep.before>
                                     <it.baseuri>http://127.0.0.1/</it.baseuri>
-                                    <it.port>${thorntail.http.port}</it.port>
+                                    <it.port>${swarm.http.port}</it.port>
                                 </systemProperties>
                             </configuration>
                             <executions>

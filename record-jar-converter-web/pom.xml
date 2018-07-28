@@ -17,8 +17,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>com.pro-crafting</groupId>
@@ -81,21 +81,21 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Thorntail Fractions -->
+        <!-- WildFly Swarm Fractions -->
         <dependency>
-            <groupId>io.thorntail</groupId>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>cdi</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>jaxrs</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>jaxrs-multipart</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
+            <groupId>org.wildfly.swarm</groupId>
             <artifactId>microprofile-health</artifactId>
         </dependency>
 
