@@ -1,41 +1,47 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
+import com.pro_crafting.tools.recordjarconverter.service.model.Field;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
-@Dependent
+@RequestScoped
 @Named(Names.RECORD)
 public class RecordLineDecoder implements LineByLineDecoder<Record> {
     public static final String RECORD_SEPERATOR = "%%";
 
     @Inject
     @Named(Names.FIELD)
-    private LineByLineDecoder<Map.Entry<String, String>> decoder;
+    private LineByLineDecoder<Field<String, String>> decoder;
 
     @Inject
     @Named(Names.COMMENT)
     private LineByLineDecoder<List<String>> commentDecoder;
 
-    @Inject
-    private LineByLineDecoderEngine engine;
+    private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
     private final Record record = new Record();
 
     @Override
     public void parseLine(String line) {
-        Map.Entry<String, String> field = engine.chainNextDecoder(decoder, line);
-        if (field != null) {
-            this.record.getFields().put(field.getKey(), field.getValue());
+
+        if (this.record.getFields().isEmpty()) {
+            List<String> comments = engine.chainNextDecoder(commentDecoder, line);
+            if (comments != null) {
+                this.record.setComments(comments.toArray(new String[0]));
+            }
         }
 
-        List<String> comments = engine.chainNextDecoder(commentDecoder, line);
-        if (comments != null) {
-            this.record.setComments(comments);
+        if (!commentDecoder.hasData()) {
+            Field<String, String> field = engine.chainNextDecoder(decoder, line);
+            if (field != null) {
+                this.record.getFields().put(field.getKey(), field.getValue());
+            }
         }
     }
 
@@ -50,8 +56,8 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
             return null;
         }
 
-        Record gatheredRecordLines = Record.of(record);
-        Map.Entry<String, String> field = decoder.gatherData();
+        Record gatheredRecordLines = new Record(record);
+        Field<String, String> field = decoder.gatherData();
         if (field == null) {
             return gatheredRecordLines;
         }

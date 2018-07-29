@@ -6,13 +6,18 @@ import com.pro_crafting.tools.recordjarconverter.service.decoder.Names;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
-@Dependent
+@RequestScoped
 public class RecordJarService {
 
     public static final String DEFAULT_ENCODING = "UTF-8";
@@ -24,8 +29,7 @@ public class RecordJarService {
     @Named(Names.RECORD_SEQUENCE)
     private LineByLineDecoder<List<Record>> decoder;
 
-    @Inject
-    private LineByLineDecoderEngine engine;
+    private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
     @Inject
     private DecoderContext context;
@@ -35,14 +39,16 @@ public class RecordJarService {
             encoding = DEFAULT_ENCODING;
         }
 
-        Scanner scanner = new Scanner(content, encoding);
-        int lineNumber = 0;
-        while(scanner.hasNextLine()) {
-            lineNumber++;
-            context.setLineNumber(lineNumber);
-
-            String line = scanner.nextLine();
-            engine.chainNextDecoder(decoder, line);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(content))) {
+            int lineNumber = 0;
+            String line = reader.readLine();
+            for(;line != null;  line = reader.readLine()) {
+                lineNumber++;
+                context.setLineNumber(lineNumber);
+                engine.chainNextDecoder(decoder, line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         List<Record> records = decoder.gatherData();
         if (!context.getViolations().isEmpty()) {

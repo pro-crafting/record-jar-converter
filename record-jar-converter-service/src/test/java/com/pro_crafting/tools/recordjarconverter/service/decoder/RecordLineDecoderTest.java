@@ -57,6 +57,6 @@ public class RecordLineDecoderTest {
         Record data = decoder.gatherData();
         assertNotNull(data);
         assertEquals(4, data.getFields().size());
-        assertEquals(2, data.getComments().size());
+        assertEquals(2, data.getComments().length);
     }
 }

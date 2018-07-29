@@ -1,50 +1,46 @@
 package com.pro_crafting.tools.recordjarconverter.service.model;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Record {
-    private Map<String, String> fields = new HashMap<>();
-    private List<String> comments = new ArrayList<>();
+    private Map<String, String> fields;
+    private String[] comments;
+
+    public Record() {
+        this.fields = new HashMap<>();
+    }
+
+    public Record(Record record) {
+        this(record.getFields(), record.getComments());
+    }
+
+    public Record(Map<String, String> fields, String[] comments) {
+        this.fields = new HashMap<>(fields);
+        this.comments = comments;
+    }
 
     public Map<String, String> getFields() {
         return fields;
     }
 
-    public List<String> getComments() {
+    /**
+     * Returns the comments of this record
+     * @return arrays of line, may be null
+     */
+    public String[] getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
-        if (comments == null) {
-            this.comments.clear();
-            return;
-        }
+    public void setComments(String[] comments) {
         this.comments = comments;
     }
 
     public void clear() {
         this.fields.clear();
-        this.comments.clear();
+        comments = null;
     }
 
     public boolean isEmpty() {
         return this.fields.isEmpty();
-    }
-
-    public static Record of(Map<String, String> fields, List<String> comments) {
-        Record record = new Record();
-        record.fields = new HashMap<>(fields);
-        record.comments = new ArrayList<>(comments);
-        return record;
-    }
-
-    public static Record of(Record record) {
-        return of(record.fields, record.comments);
     }
 }

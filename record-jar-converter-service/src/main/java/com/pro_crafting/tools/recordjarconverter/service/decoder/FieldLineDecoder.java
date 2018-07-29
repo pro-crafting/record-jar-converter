@@ -1,28 +1,24 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
 import com.pro_crafting.tools.recordjarconverter.service.DecoderContext;
 import com.pro_crafting.tools.recordjarconverter.service.ErrorCode;
-import com.pro_crafting.tools.recordjarconverter.service.Violation;
+import com.pro_crafting.tools.recordjarconverter.service.model.Field;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-@Dependent
+@RequestScoped
 @Named(Names.FIELD)
-public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, String>> {
+public class FieldLineDecoder implements LineByLineDecoder<Field<String, String>> {
     public static final String FIELD_SEPERATOR = ":";
     public static final String LINE_CONTINUATION = "\\";
 
     private String name;
     private String body;
-    private List<Violation> violations = new ArrayList<>();
+    private Field<String, String> field = new Field<>();
 
     @Inject
     private DecoderContext context;
@@ -41,7 +37,6 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
                 return;
             }
-
             String name = line.substring(0, sepPosition);
             String body = line.substring(sepPosition + 1);
 
@@ -54,7 +49,8 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             body = CharMatcher.whitespace().trimLeadingFrom(body);
 
             // Whitespace characters and colon (":", %x3A) are not permitted in a field-name.
-            if (name.contains(" ")) {
+            // field-name   = 1*character
+            if (name.contains(" ") || name.isEmpty()) {
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NAME_INVALID);
                 return;
             }
@@ -83,10 +79,10 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
     }
 
     @Override
-    public Map.Entry<String, String> gatherData() {
-        if (Strings.isNullOrEmpty(this.name)) {
-            context.addViolation(this.name, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
-        } else if (Strings.isNullOrEmpty(this.body)) {
+    public Field<String, String> gatherData() {
+        if (this.name == null) {
+            context.addViolation("", ErrorCode.ERROR_FIELD_NAME_INVALID);
+        } else if (this.body == null || this.body.isEmpty()) {
             /*
                Note that entirely blank continuation lines are not permitted.  That
                is, this record is illegal, since the field-body [..] would
@@ -99,14 +95,15 @@ public class FieldLineDecoder implements LineByLineDecoder<Map.Entry<String, Str
             return null;
         }
 
-        return new AbstractMap.SimpleEntry<>(name, body);
+        field.setKey(name);
+        field.setValue(body);
+        return field;
     }
 
     @Override
     public void reset() {
         name = null;
         body = null;
-        violations.clear();
     }
 
     @Override
