@@ -3,7 +3,6 @@ package com.pro_crafting.tools.recordjarconverter.service.decoder;
 import com.google.common.collect.Lists;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
