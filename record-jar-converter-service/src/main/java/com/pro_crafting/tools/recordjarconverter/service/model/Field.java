@@ -2,32 +2,32 @@ package com.pro_crafting.tools.recordjarconverter.service.model;
 
 import java.util.Objects;
 
-public class Field<KEY_TYPE, VALUE_TYPE> {
-    private KEY_TYPE key;
-    private VALUE_TYPE value;
+public class Field<K, V> {
+    private K key;
+    private V value;
 
     public Field() {
 
     }
 
-    public Field(KEY_TYPE key, VALUE_TYPE value) {
+    public Field(K key, V value) {
         this.key = key;
         this.value = value;
     }
 
-    public KEY_TYPE getKey() {
+    public K getKey() {
         return key;
     }
 
-    public void setKey(KEY_TYPE key) {
+    public void setKey(K key) {
         this.key = key;
     }
 
-    public VALUE_TYPE getValue() {
+    public V getValue() {
         return value;
     }
 
-    public void setValue(VALUE_TYPE value) {
+    public void setValue(V value) {
         this.value = value;
     }
 

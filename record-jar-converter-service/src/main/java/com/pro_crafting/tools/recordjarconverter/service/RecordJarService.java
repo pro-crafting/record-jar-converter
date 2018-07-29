@@ -1,11 +1,11 @@
 package com.pro_crafting.tools.recordjarconverter.service;
 
+
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoder;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoderEngine;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.Names;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Stream;
 
 @RequestScoped
 public class RecordJarService {
@@ -48,7 +46,7 @@ public class RecordJarService {
                 engine.chainNextDecoder(decoder, line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            context.addViolation("", "IOEXCEPTION");
         }
         List<Record> records = decoder.gatherData();
         if (!context.getViolations().isEmpty()) {

@@ -1,6 +1,5 @@
 package com.pro_crafting.tools.recordjarconverter.service.decoder;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.ArrayList;

@@ -8,7 +8,6 @@ import com.pro_crafting.tools.recordjarconverter.service.model.Field;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Map;
 
 @RequestScoped
 @Named(Names.FIELD)
@@ -37,26 +36,26 @@ public class FieldLineDecoder implements LineByLineDecoder<Field<String, String>
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NO_NAME_OR_NO_BODY);
                 return;
             }
-            String name = line.substring(0, sepPosition);
-            String body = line.substring(sepPosition + 1);
+            String fieldName = line.substring(0, sepPosition);
+            String fieldBody = line.substring(sepPosition + 1);
 
             /*
                The separator MAY be surrounded on either side by any amount of
                horizontal whitespace (tab or space characters).  The normal
                convention is one space on each side.
              */
-            name = name.trim();
-            body = CharMatcher.whitespace().trimLeadingFrom(body);
+            fieldName = fieldName.trim();
+            fieldBody = CharMatcher.whitespace().trimLeadingFrom(fieldBody);
 
             // Whitespace characters and colon (":", %x3A) are not permitted in a field-name.
             // field-name   = 1*character
-            if (name.contains(" ") || name.isEmpty()) {
+            if (fieldName.contains(" ") || fieldName.isEmpty()) {
                 context.addViolation(line, ErrorCode.ERROR_FIELD_NAME_INVALID);
                 return;
             }
 
-            this.name = name;
-            this.body = body;
+            this.name = fieldName;
+            this.body = fieldBody;
             return;
         }
 
