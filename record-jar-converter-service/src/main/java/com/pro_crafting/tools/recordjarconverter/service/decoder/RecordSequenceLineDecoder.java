@@ -3,13 +3,13 @@ package com.pro_crafting.tools.recordjarconverter.service.decoder;
 import com.google.common.collect.Lists;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
-@Dependent
+@RequestScoped
 @Named(Names.RECORD_SEQUENCE)
 public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Record>> {
     public static final String RECORD_SEPERATOR = "%%";
@@ -18,8 +18,7 @@ public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Record>
     @Named(Names.RECORD)
     private LineByLineDecoder<Record> decoder;
 
-    @Inject
-    private LineByLineDecoderEngine engine;
+    private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
     private List<Record> records = new ArrayList<>();
 

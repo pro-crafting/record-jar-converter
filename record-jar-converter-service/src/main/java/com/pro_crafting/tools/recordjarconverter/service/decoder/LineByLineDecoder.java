@@ -22,7 +22,8 @@ public interface LineByLineDecoder<T> {
      * Gathers data parsed by this decoder and subsequent decoders.
      * Will most likely be called once {@link #caresAboutLine(String)} isn't satisfied anymore.
      * @return the parsed data. Null should only be returned if no data is available, see {@link #hasData()}.
-     * Changes to this object are not passed back to the producing decoder.
+     * Changes to this object have no direct effect on the producing decoder, but may change other objects created by this method.
+     * It is therefore advised to make a copy of the return object yourself when the need arises.
      */
     T gatherData();
 

@@ -5,6 +5,7 @@ import com.pro_crafting.tools.recordjarconverter.service.ErrorCode;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.FieldLineDecoder;
+import com.pro_crafting.tools.recordjarconverter.service.model.Field;
 import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
 import org.jboss.weld.junit5.WeldSetup;
@@ -44,7 +45,7 @@ class FieldLineDecoderTest {
         assertEquals("Planet", decoder.gatherData().getKey());
         assertEquals("Earth of the sol system", decoder.gatherData().getValue());
 
-        decoder = weld.select(FieldLineDecoder.class).get();
+        decoder.reset();
         decoder.parseLine(line2);
         decoder.parseLine(failingLine);
         assertEquals(2, context.getViolations().size());
@@ -76,7 +77,7 @@ class FieldLineDecoderTest {
         decoder.parseLine(line);
         decoder.parseLine(line2);
 
-        Map.Entry<String, String> data = decoder.gatherData();
+        Field<String, String> data = decoder.gatherData();
 
         assertEquals("Planet", data.getKey());
         assertEquals("Mercury \\is the greatest planet", data.getValue());
