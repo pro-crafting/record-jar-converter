@@ -83,7 +83,7 @@ public class RecordJarFullResource {
             )
     })
     public Response uploadText(@ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8") @QueryParam("encoding") String encoding,
-                               @ApiParam(value = "RecordDocumentation Jar formatted text", required = true) byte[] recordJarText) {
+                               @ApiParam(value = "Record Jar formatted text", required = true) byte[] recordJarText) {
         if (encoding == null) {
             encoding = "UTF-8";
         }

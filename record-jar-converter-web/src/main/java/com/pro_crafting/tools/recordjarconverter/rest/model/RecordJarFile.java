@@ -9,13 +9,14 @@ import java.io.File;
 public class RecordJarFile {
     @FormParam("file")
     @PartType("application/octect-stream")
+    @ApiParam(value = "Record Jar formatted file", required = true)
     private File file;
 
     @FormParam("encoding")
     @PartType("text/plain")
+    @ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8")
     private String encoding;
 
-    @ApiParam(value = "Record Jar formatted file", required = true)
     public File getFile() {
         return file;
     }
@@ -24,7 +25,6 @@ public class RecordJarFile {
         this.file = file;
     }
 
-    @ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8")
     public String getEncoding() {
         return encoding;
     }

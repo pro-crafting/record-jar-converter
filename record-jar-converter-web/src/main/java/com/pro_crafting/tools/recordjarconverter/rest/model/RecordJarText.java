@@ -8,13 +8,14 @@ import javax.ws.rs.FormParam;
 public class RecordJarText {
     @FormParam("text")
     @PartType("text/plain")
+    @ApiParam(value = "Record Jar formatted text", required = true)
     private String text;
 
     @FormParam("encoding")
     @PartType("text/plain")
+    @ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8")
     private String encoding;
 
-    @ApiParam(value = "Record Jar formatted text", required = true)
     public String getText() {
         return text;
     }
@@ -23,7 +24,6 @@ public class RecordJarText {
         this.text = text;
     }
 
-    @ApiParam(value = "Encoding of the specified record-jar formatted file.", example="UTF-8", defaultValue = "UTF-8")
     public String getEncoding() {
         return encoding;
     }
