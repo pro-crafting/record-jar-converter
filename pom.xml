@@ -27,7 +27,6 @@
         <file.hollow-jar>${project.build.finalName}-hollow-thorntail.jar</file.hollow-jar>
         <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
         <docker.repository>postremus</docker.repository>
-        <debugPort>5005</debugPort>
         <swarm.http.port>8080</swarm.http.port>
         <docker.published.port>8081</docker.published.port>
 
@@ -238,27 +237,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>debug</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.thorntail</groupId>
-                            <artifactId>thorntail-maven-plugin</artifactId>
-                            <version>${version.thorntail}</version>
-                            <configuration>
-                                <debugPort>${debugPort}</debugPort>
-                                <properties>
-                                    <swarm.debug.port>${debugPort}</swarm.debug.port>
-                                </properties>
-                                <hollow>true</hollow>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
         <profile>
             <id>docker-it</id>
             <build>
