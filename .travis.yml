@@ -26,8 +26,7 @@ jobs:
       script:
         - "./cd/build.sh"
     - stage: quality
-      script: "./cd/ws-it.sh"
-    - script: "./cd/sonar.sh"
+      script: "./cd/sonar.sh"
 
 env:
   global:
