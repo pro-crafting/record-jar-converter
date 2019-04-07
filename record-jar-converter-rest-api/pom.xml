@@ -11,8 +11,7 @@
     <packaging>rar</packaging>
 
     <properties>
-        <version.swagger-ui>3.17.5</version.swagger-ui>
-
+        <version.swagger-ui>3.22.0</version.swagger-ui>
         <output.directory>${project.artifactId}-${project.version}</output.directory>
     </properties>
 
