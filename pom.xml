@@ -15,6 +15,7 @@
         <module>record-jar-converter-service</module>
         <module>record-jar-converter-web</module>
         <module>record-jar-converter-rest-api</module>
+        <module>record-jar-converter-site</module>
     </modules>
     <packaging>pom</packaging>
 
