@@ -24,8 +24,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <file.hollow-jar>${project.build.finalName}-hollow-thorntail.jar</file.hollow-jar>
-        <file.hollow-app>${project.build.finalName}.war</file.hollow-app>
         <docker.repository>postremus</docker.repository>
         <swarm.http.port>8080</swarm.http.port>
         <docker.published.port>8081</docker.published.port>

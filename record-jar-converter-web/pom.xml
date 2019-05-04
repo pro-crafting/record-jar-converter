@@ -12,6 +12,8 @@
 
     <properties>
         <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
+
+        <file.runner>${project.build.finalName}-runner.jar</file.runner>
     </properties>
 
     <build>
@@ -19,6 +21,9 @@
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
+                <configuration>
+                    <uberJar>true</uberJar>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -187,10 +192,7 @@
                                             <inline>
                                                 <files>
                                                     <file>
-                                                        <source>${project.build.directory}/${file.hollow-jar}</source>
-                                                    </file>
-                                                    <file>
-                                                        <source>${project.build.directory}/${file.hollow-app}</source>
+                                                        <source>${project.build.directory}/${file.runner}</source>
                                                     </file>
                                                 </files>
                                             </inline>
