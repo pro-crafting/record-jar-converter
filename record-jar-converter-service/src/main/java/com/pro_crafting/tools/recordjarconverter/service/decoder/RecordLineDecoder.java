@@ -14,17 +14,19 @@ import java.util.List;
 public class RecordLineDecoder implements LineByLineDecoder<Record> {
     public static final String RECORD_SEPERATOR = "%%";
 
-    @Inject
-    @Named(Names.FIELD)
     private LineByLineDecoder<Field<String, String>> decoder;
 
-    @Inject
-    @Named(Names.COMMENT)
     private LineByLineDecoder<List<String>> commentDecoder;
 
     private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
     private final Record record = new Record();
+
+    @Inject
+    public RecordLineDecoder(@Named(Names.FIELD) LineByLineDecoder<Field<String, String>> decoder, @Named(Names.COMMENT) LineByLineDecoder<List<String>> commentDecoder) {
+        this.decoder = decoder;
+        this.commentDecoder = commentDecoder;
+    }
 
     @Override
     public void parseLine(String line) {
