@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public class RecordJarHealth implements HealthCheck {
 
     @Inject
-    private RecordJarResource resource;
+    RecordJarResource resource;
 
     @Override
     public HealthCheckResponse call() {

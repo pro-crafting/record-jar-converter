@@ -32,9 +32,10 @@
         <docker.published.port>8081</docker.published.port>
 
         <!-- Dependency Versions -->
-        <version.thorntail>2.4.0.Final</version.thorntail>
-        <!-- Update this version when updating thorntail -->
-        <version.jackson>2.9.5</version.jackson>
+        <version.quarkus>0.14.0</version.quarkus>
+        <!-- Update this version when updating quarkus -->
+        <version.jackson>2.9.8</version.jackson>
+        <version.resteasy>4.0.0.CR2</version.resteasy>
 
         <version.swagger-annotations>1.5.18</version.swagger-annotations>
         <version.commons-io>2.6</version.commons-io>
@@ -62,11 +63,11 @@
 
             <!-- External dependencies -->
             <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${version.thorntail}</version>
-                <scope>import</scope>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${version.quarkus}</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>
@@ -137,24 +138,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>thorntail-maven-plugin</artifactId>
-                    <version>${version.thorntail}</version>
-                    <configuration>
-                        <hollow>true</hollow>
-                        <properties>
-                            <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
-                            <swarm.bind.address>0.0.0.0</swarm.bind.address>
-                            <swarm.http.port>${swarm.http.port}</swarm.http.port>
-                        </properties>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>package</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-maven-plugin</artifactId>
+                    <version>${version.quarkus}</version>
                 </plugin>
                 <plugin>
                     <groupId>io.fabric8</groupId>

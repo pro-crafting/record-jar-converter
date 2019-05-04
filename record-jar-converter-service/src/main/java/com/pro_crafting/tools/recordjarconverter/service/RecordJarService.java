@@ -5,6 +5,7 @@ import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecod
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoderEngine;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.Names;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
+import com.pro_crafting.tools.recordjarconverter.service.model.RecordList;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -39,7 +40,7 @@ public class RecordJarService {
         this.context = context;
     }
 
-    public List<Record> convert(InputStream content, String encoding) {
+    public RecordList convert(InputStream content, String encoding) {
         if (encoding == null || encoding.isEmpty()) {
             encoding = DEFAULT_ENCODING;
         }
@@ -59,6 +60,6 @@ public class RecordJarService {
         if (!context.getViolations().isEmpty()) {
             throw new ViolationException(context.getViolations());
         }
-        return records;
+        return new RecordList(records);
     }
 }

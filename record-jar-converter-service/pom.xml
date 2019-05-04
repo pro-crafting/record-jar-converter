@@ -10,10 +10,10 @@
     <artifactId>record-jar-converter-service</artifactId>
 
     <dependencies>
-        <!-- WildFly Swarm Fractions -->
+        <!-- Quarkus Extensions -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
         </dependency>
         <!-- Other dependencies -->
         <dependency>

@@ -5,7 +5,7 @@ import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarFile;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarText;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
-import com.pro_crafting.tools.recordjarconverter.service.model.Record;
+import com.pro_crafting.tools.recordjarconverter.service.model.RecordList;
 import io.swagger.annotations.*;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -15,10 +15,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
-import java.util.List;
 
 @Api(value = "Record Jar API")
 @Path(RecordJarFullResource.RESOURCE_PATH)
@@ -27,7 +25,7 @@ public class RecordJarFullResource {
     public static final String RESOURCE_PATH = "record/jar/full/";
 
     @Inject
-    private RecordJarService service;
+    RecordJarService service;
 
     @POST
     @Path("multipart/file")
@@ -43,8 +41,8 @@ public class RecordJarFullResource {
             )
     })
     public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
-        List<Record> records = service.convert(new FileInputStream(recordJarFile.getFile()), recordJarFile.getEncoding());
-        return Response.ok().entity(records).build();
+        RecordList recordList = service.convert(recordJarFile.getFile(), recordJarFile.getEncoding());
+        return Response.ok().entity(recordList.getRecords()).build();
     }
 
     @POST
@@ -65,8 +63,8 @@ public class RecordJarFullResource {
             recordJarText.setEncoding("UTF-8");
         }
 
-        List<Record> records = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
-        return Response.ok().entity(records).build();
+        RecordList recordList = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
+        return Response.ok().entity(recordList).build();
     }
 
     @POST
@@ -88,7 +86,7 @@ public class RecordJarFullResource {
             encoding = "UTF-8";
         }
 
-        List<Record> records = service.convert(new ByteArrayInputStream(recordJarText), encoding);
-        return Response.ok().entity(records).build();
+        RecordList recordList = service.convert(new ByteArrayInputStream(recordJarText), encoding);
+        return Response.ok().entity(recordList).build();
     }
 }
