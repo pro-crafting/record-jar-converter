@@ -246,7 +246,7 @@
                             <artifactId>maven-failsafe-plugin</artifactId>
                             <configuration>
                                 <systemProperties>
-                                    <sleep.before>5000</sleep.before>
+                                    <sleep.before>1000</sleep.before>
                                     <it.baseuri>http://127.0.0.1/</it.baseuri>
                                     <it.port>${docker.published.port}</it.port>
                                 </systemProperties>
