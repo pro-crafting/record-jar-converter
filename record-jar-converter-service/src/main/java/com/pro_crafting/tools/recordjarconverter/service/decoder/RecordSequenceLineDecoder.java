@@ -14,14 +14,20 @@ import java.util.List;
 public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Record>> {
     public static final String RECORD_SEPERATOR = "%%";
 
-    @Inject
-    @Named(Names.RECORD)
     private LineByLineDecoder<Record> decoder;
 
     private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
     private List<Record> records = new ArrayList<>();
 
+    public RecordSequenceLineDecoder() {
+        // cdi needs this for proxy
+    }
+
+    @Inject
+    public RecordSequenceLineDecoder(@Named(Names.RECORD) LineByLineDecoder<Record> decoder) {
+        this.decoder = decoder;
+    }
 
     @Override
     public void parseLine(String line) {

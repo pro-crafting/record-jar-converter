@@ -53,7 +53,6 @@
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
         <junit.platform.version>1.2.0</junit.platform.version>
         <version.mockito-core>2.18.3</version.mockito-core>
-        <version.weld-junit5>1.2.2.Final</version.weld-junit5>
         <version.rest-assured>3.1.0</version.rest-assured>
     </properties>
 
@@ -115,13 +114,6 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${version.mockito-core}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.weld</groupId>
-                <artifactId>weld-junit5</artifactId>
-                <version>${version.weld-junit5}</version>
                 <scope>test</scope>
             </dependency>
 

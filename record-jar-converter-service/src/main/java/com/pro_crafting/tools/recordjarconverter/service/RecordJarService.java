@@ -23,14 +23,21 @@ public class RecordJarService {
     public static final String FIELD_SEPERATOR = ":";
     public static final String LINE_CONTINUATION = "\\";
 
-    @Inject
-    @Named(Names.RECORD_SEQUENCE)
     private LineByLineDecoder<List<Record>> decoder;
 
     private LineByLineDecoderEngine engine = new LineByLineDecoderEngine();
 
-    @Inject
     private DecoderContext context;
+
+    public RecordJarService() {
+        // cdi needs this for proxy
+    }
+
+    @Inject
+    public RecordJarService(@Named(Names.RECORD_SEQUENCE) LineByLineDecoder<List<Record>> decoder, DecoderContext context) {
+        this.decoder = decoder;
+        this.context = context;
+    }
 
     public List<Record> convert(InputStream content, String encoding) {
         if (encoding == null || encoding.isEmpty()) {
