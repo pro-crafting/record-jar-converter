@@ -11,8 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

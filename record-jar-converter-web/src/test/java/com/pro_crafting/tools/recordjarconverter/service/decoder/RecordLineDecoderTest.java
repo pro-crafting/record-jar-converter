@@ -4,13 +4,6 @@ import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.*;
 

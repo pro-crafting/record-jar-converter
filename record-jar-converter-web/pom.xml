@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>record-jar-converter</artifactId>
         <groupId>com.pro-crafting.tools</groupId>
@@ -49,9 +50,13 @@
                                 <version>${project.version}</version>
                             </info>
                             <swaggerDirectory>${project.build.directory}</swaggerDirectory>
-                            <swaggerApiReader>com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion</swaggerApiReader>
+                            <swaggerApiReader>
+                                com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion
+                            </swaggerApiReader>
                             <swaggerExtensions>
-                                <swaggerExtension>com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension</swaggerExtension>
+                                <swaggerExtension>
+                                    com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension
+                                </swaggerExtension>
                             </swaggerExtensions>
                         </apiSource>
                     </apiSources>
@@ -70,12 +75,8 @@
 
     <dependencies>
         <!-- Internal Dependencies -->
-        <dependency>
-            <groupId>com.pro-crafting.tools</groupId>
-            <artifactId>record-jar-converter-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
 
+        <!-- External Dependencies -->
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -125,11 +126,18 @@
         </dependency>
 
 
-
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
