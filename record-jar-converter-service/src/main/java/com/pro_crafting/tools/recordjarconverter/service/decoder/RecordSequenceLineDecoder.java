@@ -20,6 +20,10 @@ public class RecordSequenceLineDecoder implements LineByLineDecoder<List<Record>
 
     private List<Record> records = new ArrayList<>();
 
+    public RecordSequenceLineDecoder() {
+        // cdi needs this for proxy
+    }
+
     @Inject
     public RecordSequenceLineDecoder(@Named(Names.RECORD) LineByLineDecoder<Record> decoder) {
         this.decoder = decoder;

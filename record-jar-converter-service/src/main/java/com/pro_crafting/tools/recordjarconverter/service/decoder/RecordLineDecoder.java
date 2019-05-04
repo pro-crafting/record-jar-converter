@@ -22,6 +22,10 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
 
     private final Record record = new Record();
 
+    public RecordLineDecoder() {
+        // cdi needs this for proxy
+    }
+
     @Inject
     public RecordLineDecoder(@Named(Names.FIELD) LineByLineDecoder<Field<String, String>> decoder, @Named(Names.COMMENT) LineByLineDecoder<List<String>> commentDecoder) {
         this.decoder = decoder;

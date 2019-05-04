@@ -29,6 +29,10 @@ public class RecordJarService {
 
     private DecoderContext context;
 
+    public RecordJarService() {
+        // cdi needs this for proxy
+    }
+
     @Inject
     public RecordJarService(@Named(Names.RECORD_SEQUENCE) LineByLineDecoder<List<Record>> decoder, DecoderContext context) {
         this.decoder = decoder;
