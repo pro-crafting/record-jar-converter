@@ -181,7 +181,7 @@
                                                 <method>GET</method>
                                                 <status>200</status>
                                             </http>
-                                            <time>200</time>
+                                            <time>1000</time>
                                             <healthy>true</healthy>
                                         </wait>
                                     </run>
