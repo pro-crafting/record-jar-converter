@@ -33,8 +33,7 @@ public class RecordJarServiceTest {
     void testConvertSingleFieldSingleRecord() {
         String line = "Planet: Mercury";
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
         assertEquals(1, records.get(0).getFields().size());
@@ -50,8 +49,7 @@ public class RecordJarServiceTest {
                 "Diameter: 4,880 km",
                 "Mass: 3.30e23 kg");
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
         assertEquals(4, records.get(0).getFields().size());
@@ -80,8 +78,7 @@ public class RecordJarServiceTest {
                 "Mass: 5.972e24 kg",
                 "Moons: Luna");
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(3, records.size());
         assertEquals(4, records.get(0).getFields().size());
@@ -111,8 +108,7 @@ public class RecordJarServiceTest {
                 " Association)",
                 "Added: 2005-08-16");
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
         assertEquals(4, records.get(0).getFields().size());
@@ -146,8 +142,7 @@ public class RecordJarServiceTest {
                 "%%"
                 );
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(3, records.size());
         assertEquals(4, records.get(0).getFields().size());
@@ -165,8 +160,7 @@ public class RecordJarServiceTest {
                 "Planet: Mercury \\\\",
                 "  is the greatest planet");
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
-        List<Record> records = recordList.getRecords();
+        List<Record> records = service.convert(new ByteArrayInputStream(line.getBytes(Charset.forName(ENCODING))), ENCODING);
 
         assertEquals(1, records.size());
         assertEquals(1, records.get(0).getFields().size());

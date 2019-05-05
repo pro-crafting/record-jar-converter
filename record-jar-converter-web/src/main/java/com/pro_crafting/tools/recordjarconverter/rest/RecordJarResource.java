@@ -43,8 +43,8 @@ public class RecordJarResource {
             )
     })
     public Response uploadMultipartFile(@ApiParam @MultipartForm RecordJarFile recordJarFile) {
-        RecordList recordList = service.convert(recordJarFile.getFile(), recordJarFile.getEncoding());
-        return Response.ok().entity(map(recordList.getRecords())).build();
+        List<Record> records = service.convert(recordJarFile.getFile(), recordJarFile.getEncoding());
+        return Response.ok().entity(map(records)).build();
     }
 
     @POST
@@ -65,8 +65,8 @@ public class RecordJarResource {
             recordJarText.setEncoding("UTF-8");
         }
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
-        return Response.ok().entity(map(recordList.getRecords())).build();
+        List<Record> records = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
+        return Response.ok().entity(map(records)).build();
     }
 
     @POST
@@ -88,8 +88,8 @@ public class RecordJarResource {
             encoding = "UTF-8";
         }
 
-        RecordList recordList = service.convert(new ByteArrayInputStream(recordJarText), encoding);
-        return Response.ok().entity(map(recordList.getRecords())).build();
+        List<Record> records = service.convert(new ByteArrayInputStream(recordJarText), encoding);
+        return Response.ok().entity(map(records)).build();
     }
 
     private List<Map<String, String>> map(List<Record> records) {

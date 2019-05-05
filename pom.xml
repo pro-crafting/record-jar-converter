@@ -25,8 +25,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
-        <swarm.http.port>8080</swarm.http.port>
-        <docker.published.port>8081</docker.published.port>
+        <docker.published.port>8080</docker.published.port>
 
         <!-- Dependency Versions -->
         <version.quarkus>0.14.0</version.quarkus>
@@ -246,7 +245,7 @@
                             <artifactId>maven-failsafe-plugin</artifactId>
                             <configuration>
                                 <systemProperties>
-                                    <sleep.before>1000</sleep.before>
+                                    <sleep.before>10000</sleep.before>
                                     <it.baseuri>http://127.0.0.1/</it.baseuri>
                                     <it.port>${docker.published.port}</it.port>
                                 </systemProperties>

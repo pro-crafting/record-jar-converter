@@ -40,7 +40,7 @@ public class RecordJarService {
         this.context = context;
     }
 
-    public RecordList convert(InputStream content, String encoding) {
+    public List<Record> convert(InputStream content, String encoding) {
         if (encoding == null || encoding.isEmpty()) {
             encoding = DEFAULT_ENCODING;
         }
@@ -60,6 +60,6 @@ public class RecordJarService {
         if (!context.getViolations().isEmpty()) {
             throw new ViolationException(context.getViolations());
         }
-        return new RecordList(records);
+        return records;
     }
 }
