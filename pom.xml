@@ -120,13 +120,6 @@
                 <version>${version.rest-assured}</version>
                 <scope>test</scope>
             </dependency>
-
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>json-schema-validator</artifactId>
-                <version>${version.rest-assured}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

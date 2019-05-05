@@ -38,7 +38,7 @@ public class RecordJarServiceTest {
         assertEquals(1, records.size());
         assertEquals(1, records.get(0).getFields().size());
         assertTrue(records.get(0).getFields().containsKey("Planet"));
-        assertEquals("Mercury", records.get(0).getFields().get("Planet"));
+        assertEquals("Mercury", records.get(0).getFields().get("Planet").iterator().next());
     }
 
     @Test
@@ -53,10 +53,10 @@ public class RecordJarServiceTest {
 
         assertEquals(1, records.size());
         assertEquals(4, records.get(0).getFields().size());
-        assertEquals("Mercury", records.get(0).getFields().get("Planet"));
-        assertEquals("57,910,000 km", records.get(0).getFields().get("Orbital-Radius"));
-        assertEquals("4,880 km", records.get(0).getFields().get("Diameter"));
-        assertEquals("3.30e23 kg", records.get(0).getFields().get("Mass"));
+        assertEquals("Mercury", records.get(0).getFields().get("Planet").iterator().next());
+        assertEquals("57,910,000 km", records.get(0).getFields().get("Orbital-Radius").iterator().next());
+        assertEquals("4,880 km", records.get(0).getFields().get("Diameter").iterator().next());
+        assertEquals("3.30e23 kg", records.get(0).getFields().get("Mass").iterator().next());
     }
 
     @Test
@@ -82,21 +82,21 @@ public class RecordJarServiceTest {
 
         assertEquals(3, records.size());
         assertEquals(4, records.get(0).getFields().size());
-        assertEquals("Mercury", records.get(0).getFields().get("Planet"));
-        assertEquals("57,910,000 km", records.get(0).getFields().get("Orbital-Radius"));
-        assertEquals("4,880 km", records.get(0).getFields().get("Diameter"));
-        assertEquals("3.30e23 kg", records.get(0).getFields().get("Mass"));
+        assertEquals("Mercury", records.get(0).getFields().get("Planet").iterator().next());
+        assertEquals("57,910,000 km", records.get(0).getFields().get("Orbital-Radius").iterator().next());
+        assertEquals("4,880 km", records.get(0).getFields().get("Diameter").iterator().next());
+        assertEquals("3.30e23 kg", records.get(0).getFields().get("Mass").iterator().next());
         assertEquals(4, records.get(1).getFields().size());
-        assertEquals("Venus", records.get(1).getFields().get("Planet"));
-        assertEquals("108,200,000 km", records.get(1).getFields().get("Orbital-Radius"));
-        assertEquals("12,103.6 km", records.get(1).getFields().get("Diameter"));
-        assertEquals("4.869e24 kg", records.get(1).getFields().get("Mass"));
+        assertEquals("Venus", records.get(1).getFields().get("Planet").iterator().next());
+        assertEquals("108,200,000 km", records.get(1).getFields().get("Orbital-Radius").iterator().next());
+        assertEquals("12,103.6 km", records.get(1).getFields().get("Diameter").iterator().next());
+        assertEquals("4.869e24 kg", records.get(1).getFields().get("Mass").iterator().next());
         assertEquals(5, records.get(2).getFields().size());
-        assertEquals("Earth", records.get(2).getFields().get("Planet"));
-        assertEquals("149,600,000 km", records.get(2).getFields().get("Orbital-Radius"));
-        assertEquals("12,756.3 km", records.get(2).getFields().get("Diameter"));
-        assertEquals("5.972e24 kg", records.get(2).getFields().get("Mass"));
-        assertEquals("Luna", records.get(2).getFields().get("Moons"));
+        assertEquals("Earth", records.get(2).getFields().get("Planet").iterator().next());
+        assertEquals("149,600,000 km", records.get(2).getFields().get("Orbital-Radius").iterator().next());
+        assertEquals("12,756.3 km", records.get(2).getFields().get("Diameter").iterator().next());
+        assertEquals("5.972e24 kg", records.get(2).getFields().get("Mass").iterator().next());
+        assertEquals("Luna", records.get(2).getFields().get("Moons").iterator().next());
     }
 
     @Test
@@ -112,10 +112,10 @@ public class RecordJarServiceTest {
 
         assertEquals(1, records.size());
         assertEquals(4, records.get(0).getFields().size());
-        assertEquals("language", records.get(0).getFields().get("Type"));
-        assertEquals("ia", records.get(0).getFields().get("Subtag"));
-        assertEquals("2005-08-16", records.get(0).getFields().get("Added"));
-        assertEquals("Interlingua (International Auxiliary Language Association)", records.get(0).getFields().get("Description"));
+        assertEquals("language", records.get(0).getFields().get("Type").iterator().next());
+        assertEquals("ia", records.get(0).getFields().get("Subtag").iterator().next());
+        assertEquals("2005-08-16", records.get(0).getFields().get("Added").iterator().next());
+        assertEquals("Interlingua (International Auxiliary Language Association)", records.get(0).getFields().get("Description").iterator().next());
     }
 
     @Test
@@ -146,10 +146,10 @@ public class RecordJarServiceTest {
 
         assertEquals(3, records.size());
         assertEquals(4, records.get(0).getFields().size());
-        assertEquals("language", records.get(0).getFields().get("Type"));
-        assertEquals("ia", records.get(0).getFields().get("Subtag"));
-        assertEquals("2005-08-16", records.get(0).getFields().get("Added"));
-        assertEquals("Interlingua (International Auxiliary Language Association)", records.get(0).getFields().get("Description"));
+        assertEquals("language", records.get(0).getFields().get("Type").iterator().next());
+        assertEquals("ia", records.get(0).getFields().get("Subtag").iterator().next());
+        assertEquals("2005-08-16", records.get(0).getFields().get("Added").iterator().next());
+        assertEquals("Interlingua (International Auxiliary Language Association)", records.get(0).getFields().get("Description").iterator().next());
         assertEquals(5, records.get(1).getFields().size());
         assertEquals(5, records.get(2).getFields().size());
     }
@@ -165,6 +165,6 @@ public class RecordJarServiceTest {
         assertEquals(1, records.size());
         assertEquals(1, records.get(0).getFields().size());
         assertTrue(records.get(0).getFields().containsKey("Planet"));
-        assertEquals("Mercury \\is the greatest planet", records.get(0).getFields().get("Planet"));
+        assertEquals("Mercury \\is the greatest planet", records.get(0).getFields().get("Planet").iterator().next());
     }
 }

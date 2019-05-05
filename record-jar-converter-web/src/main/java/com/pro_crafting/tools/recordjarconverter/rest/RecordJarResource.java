@@ -1,11 +1,11 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
+import com.google.common.collect.Multimap;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarFile;
 import com.pro_crafting.tools.recordjarconverter.rest.model.RecordJarText;
 import com.pro_crafting.tools.recordjarconverter.service.RecordJarService;
 import com.pro_crafting.tools.recordjarconverter.service.Violation;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
-import com.pro_crafting.tools.recordjarconverter.service.model.RecordList;
 import io.swagger.annotations.*;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -16,8 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Api(value = "Record Jar API")
@@ -92,7 +91,23 @@ public class RecordJarResource {
         return Response.ok().entity(map(records)).build();
     }
 
-    private List<Map<String, String>> map(List<Record> records) {
-        return records.stream().map(Record::getFields).collect(Collectors.toList());
+    private List<Map<String, Object>> map(List<Record> records) {
+
+        List<Map<String, Object>> recordsMap = new ArrayList<>();
+
+        for (Record record : records) {
+            Map<String, Object> recordMap = new HashMap<>();
+            record.getFields().keySet().forEach((k) -> {
+                Collection<String> values = record.getFields().get(k);
+                if (values.size() == 1) {
+                    recordMap.put(k, values.iterator().next());
+                } else {
+                    recordMap.put(k, values);
+                }
+            });
+            recordsMap.add(recordMap);
+        }
+
+        return recordsMap;
     }
 }

@@ -1,25 +1,29 @@
 package com.pro_crafting.tools.recordjarconverter.service.model;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+
 import java.util.*;
 
 public class Record {
-    private Map<String, String> fields;
+    private Multimap<String, String> fields;
     private String[] comments;
 
     public Record() {
-        this.fields = new HashMap<>();
+        this.fields = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     }
 
     public Record(Record record) {
         this(record.getFields(), record.getComments());
     }
 
-    public Record(Map<String, String> fields, String[] comments) {
-        this.fields = new HashMap<>(fields);
+    public Record(Multimap<String, String> fields, String[] comments) {
+        this.fields = MultimapBuilder.linkedHashKeys().arrayListValues().build(fields);
         this.comments = comments;
     }
 
-    public Map<String, String> getFields() {
+    public Multimap<String, String> getFields() {
         return fields;
     }
 

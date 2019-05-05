@@ -44,7 +44,7 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
 
         if (!commentDecoder.hasData()) {
             Field<String, String> field = engine.chainNextDecoder(decoder, line);
-            if (field != null) {
+            if (field != null ) {
                 this.record.getFields().put(field.getKey(), field.getValue());
             }
         }
