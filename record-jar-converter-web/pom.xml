@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>record-jar-converter</artifactId>
         <groupId>com.pro-crafting.tools</groupId>
@@ -8,17 +9,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>record-jar-converter-web</artifactId>
-    <packaging>war</packaging>
 
     <properties>
         <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
+
+        <file.runner>${project.build.finalName}-runner.jar</file.runner>
     </properties>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <configuration>
+                    <uberJar>true</uberJar>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.pro-crafting</groupId>
@@ -43,9 +55,13 @@
                                 <version>${project.version}</version>
                             </info>
                             <swaggerDirectory>${project.build.directory}</swaggerDirectory>
-                            <swaggerApiReader>com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion</swaggerApiReader>
+                            <swaggerApiReader>
+                                com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion
+                            </swaggerApiReader>
                             <swaggerExtensions>
-                                <swaggerExtension>com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension</swaggerExtension>
+                                <swaggerExtension>
+                                    com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension
+                                </swaggerExtension>
                             </swaggerExtensions>
                         </apiSource>
                     </apiSources>
@@ -64,33 +80,49 @@
 
     <dependencies>
         <!-- Internal Dependencies -->
-        <dependency>
-            <groupId>com.pro-crafting.tools</groupId>
-            <artifactId>record-jar-converter-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
 
+        <!-- External Dependencies -->
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
 
-        <!-- WildFly Swarm Fractions -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <!-- Quarkus Extensions -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+        </dependency>
+        <!-- TODO: Update to JSON-B -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${version.jackson}</version>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs-multipart</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version.jackson}</version>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-health</artifactId>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
         </dependency>
 
 
@@ -98,6 +130,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -141,7 +181,7 @@
                                                 <method>GET</method>
                                                 <status>200</status>
                                             </http>
-                                            <time>50000</time>
+                                            <time>5000</time>
                                             <healthy>true</healthy>
                                         </wait>
                                     </run>
@@ -152,10 +192,7 @@
                                             <inline>
                                                 <files>
                                                     <file>
-                                                        <source>${project.build.directory}/${file.hollow-jar}</source>
-                                                    </file>
-                                                    <file>
-                                                        <source>${project.build.directory}/${file.hollow-app}</source>
+                                                        <source>${project.build.directory}/${file.runner}</source>
                                                     </file>
                                                 </files>
                                             </inline>

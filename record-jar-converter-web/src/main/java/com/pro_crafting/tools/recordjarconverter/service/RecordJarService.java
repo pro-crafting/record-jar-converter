@@ -5,6 +5,7 @@ import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecod
 import com.pro_crafting.tools.recordjarconverter.service.decoder.LineByLineDecoderEngine;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.Names;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
+import com.pro_crafting.tools.recordjarconverter.service.model.RecordList;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

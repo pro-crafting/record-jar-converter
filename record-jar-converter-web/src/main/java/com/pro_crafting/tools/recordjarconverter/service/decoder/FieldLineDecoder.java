@@ -20,7 +20,7 @@ public class FieldLineDecoder implements LineByLineDecoder<Field<String, String>
     private Field<String, String> field = new Field<>();
 
     @Inject
-    private DecoderContext context;
+    DecoderContext context;
 
     @Override
     public void parseLine(String line) {

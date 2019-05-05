@@ -5,6 +5,7 @@ import com.pro_crafting.tools.recordjarconverter.service.decoder.FieldLineDecode
 import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordLineDecoder;
 import com.pro_crafting.tools.recordjarconverter.service.decoder.RecordSequenceLineDecoder;
 import com.pro_crafting.tools.recordjarconverter.service.model.Record;
+import com.pro_crafting.tools.recordjarconverter.service.model.RecordList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -25,7 +25,7 @@ public abstract class IntegrationTestBase {
 
         RestAssured.baseURI = System.getProperties().getProperty("it.baseuri", "http://127.0.0.1/");
         RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port", "8080"));
-        enableLoggingOfRequestAndResponseIfValidationFails();
+        //enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
     protected String generateJsonSchema(TypeReference<?> typeReference) throws JsonProcessingException {
@@ -37,8 +37,6 @@ public abstract class IntegrationTestBase {
     }
 
     protected String generateJsonSchema(Type type) throws JsonProcessingException {
-        SimpleModule module = new SimpleModule();
-
         JsonSchema jsonSchema = generator.generateSchema(mapper.getTypeFactory().constructType(type));
 
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonSchema);
