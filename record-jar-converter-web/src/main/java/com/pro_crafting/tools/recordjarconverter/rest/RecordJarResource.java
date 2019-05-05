@@ -91,23 +91,7 @@ public class RecordJarResource {
         return Response.ok().entity(map(records)).build();
     }
 
-    private List<Map<String, Object>> map(List<Record> records) {
-
-        List<Map<String, Object>> recordsMap = new ArrayList<>();
-
-        for (Record record : records) {
-            Map<String, Object> recordMap = new HashMap<>();
-            record.getFields().keySet().forEach((k) -> {
-                Collection<String> values = record.getFields().get(k);
-                if (values.size() == 1) {
-                    recordMap.put(k, values.iterator().next());
-                } else {
-                    recordMap.put(k, values);
-                }
-            });
-            recordsMap.add(recordMap);
-        }
-
-        return recordsMap;
+    private List<Multimap<String, String>> map(List<Record> records) {
+        return records.stream().map(Record::getFields).collect(Collectors.toList());
     }
 }

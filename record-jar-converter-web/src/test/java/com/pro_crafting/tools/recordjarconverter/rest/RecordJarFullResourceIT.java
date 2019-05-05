@@ -1,16 +1,14 @@
 package com.pro_crafting.tools.recordjarconverter.rest;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.pro_crafting.tools.recordjarconverter.IntegrationTestBase;
 import com.pro_crafting.tools.recordjarconverter.RestApplication;
-import com.pro_crafting.tools.recordjarconverter.service.model.Record;
+import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.apache.commons.io.IOUtils.resourceToByteArray;
@@ -41,17 +39,19 @@ class RecordJarFullResourceIT extends IntegrationTestBase {
 
     @Test
     void testUploadMultipartFileLarge() throws IOException {
-        /*String schema = super.generateJsonSchema(new TypeReference<List<Record>>() {});
         byte[] bytes = resourceToByteArray("language-subtag-registry.rj", getClass().getClassLoader());
+        String expected = resourceToString("language-subtag-registry-converted-full.json", Charset.forName("UTF-8"), getClass().getClassLoader());
+
         Response response = given()
                 .multiPart("file", "language-subtag-registry.rj", bytes)
                 .multiPart("encoding", "UTF-8")
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body(matchesJsonSchema(schema))
                 .when()
-                .post(MULTIPART_FORM_FILE_PATH);*/
+                .post(MULTIPART_FORM_FILE_PATH);
+
+        assertEquals(expected, response.asString());
     }
 
     @Test
@@ -72,17 +72,19 @@ class RecordJarFullResourceIT extends IntegrationTestBase {
 
     @Test
     void testUploadMultipartTextLarge() throws IOException {
-        /*String schema = super.generateJsonSchema(new TypeReference<List<Record>>() {});
         String body = resourceToString("language-subtag-registry.rj", Charset.forName("UTF-8"), getClass().getClassLoader());
+        String expected = resourceToString("language-subtag-registry-converted-full.json", Charset.forName("UTF-8"), getClass().getClassLoader());
+
         Response response = given()
-                .multiPart("text", body)
+                .multiPart(new MultiPartSpecBuilder(body).controlName("text").mimeType("text/plain").charset("UTF-8").build())
                 .multiPart("encoding", "UTF-8")
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body(matchesJsonSchema(schema))
                 .when()
-                .post(MULTIPART_FORM_TEXT_PATH);*/
+                .post(MULTIPART_FORM_TEXT_PATH);
+
+        assertEquals(expected, response.asString());
     }
 
     @Test
@@ -103,16 +105,19 @@ class RecordJarFullResourceIT extends IntegrationTestBase {
 
     @Test
     void testUploadTextLarge() throws IOException {
-        /*String schema = super.generateJsonSchema(new TypeReference<List<Record>>() {});
         String body = resourceToString("language-subtag-registry.rj", Charset.forName("UTF-8"), getClass().getClassLoader());
+        String expected = resourceToString("language-subtag-registry-converted-full.json", Charset.forName("UTF-8"), getClass().getClassLoader());
+
         Response response = given()
                 .body(body)
+                .contentType("text/plain; charset=UTF-8")
                 .queryParam("encoding", "UTF-8")
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body(matchesJsonSchema(schema))
                 .when()
-                .post(TEXT_PATH);*/
+                .post(TEXT_PATH);
+
+        assertEquals(expected, response.asString());
     }
 }
