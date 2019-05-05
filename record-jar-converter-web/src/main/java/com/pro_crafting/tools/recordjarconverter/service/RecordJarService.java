@@ -45,7 +45,7 @@ public class RecordJarService {
             encoding = DEFAULT_ENCODING;
         }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(content))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(content, encoding))) {
             int lineNumber = 0;
             String line = reader.readLine();
             for(;line != null;  line = reader.readLine()) {
