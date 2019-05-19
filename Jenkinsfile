@@ -16,7 +16,6 @@ pipeline {
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_IO_USERNAME', passwordVariable: 'DOCKER_IO_TOKEN'),
                     usernamePassword(credentialsId: 'ossrh', usernameVariable: 'OSSRH_USERNAME', passwordVariable: 'OSSRH_TOKEN'),
                 ]) {
-                    cp cd/
                     sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras'
                 }
             }
