@@ -28,10 +28,10 @@ pipeline {
                 sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar'
             }
         }
-        post {
-            always {
-                junit 'build/reports/**/*.xml'
-            }
+    }
+    post {
+        always {
+            junit 'build/reports/**/*.xml'
         }
     }
 }
