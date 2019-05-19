@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                sh 'mvn install -s cd/settings.xml -P docker,docker-it,build-extras'
+                sh 'mvn install -P docker,docker-it,build-extras'
             }
         }
         stage ('Build and Deploy') {
