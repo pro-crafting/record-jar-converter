@@ -25,7 +25,7 @@ pipeline {
         }
         stage ('Qualitiy - Sonar') {
             steps {
-                sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Pquality'
+                sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar'
             }
         }
     }
