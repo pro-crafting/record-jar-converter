@@ -162,6 +162,7 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
+                            <containerNamePattern>%n</containerNamePattern>
                             <images>
                                 <image>
                                     <name>${docker.repository}/${project.artifactId}</name>
@@ -170,7 +171,7 @@
                                             <port>${docker.published.port}:8080</port>
                                         </ports>
                                         <wait>
-                                            <time>2147483647</time>
+                                            <time>214748</time>
                                         </wait>
                                     </run>
                                     <build>
