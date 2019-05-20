@@ -170,12 +170,7 @@
                                             <port>${docker.published.port}:8080</port>
                                         </ports>
                                         <wait>
-                                            <http>
-                                                <url>http://127.0.0.1:8081/health</url>
-                                                <method>GET</method>
-                                                <status>200</status>
-                                            </http>
-                                            <time>10000</time>
+                                            <time>5000</time>
                                             <healthy>true</healthy>
                                         </wait>
                                     </run>
