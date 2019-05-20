@@ -171,7 +171,6 @@
                                         </ports>
                                         <wait>
                                             <time>5000</time>
-                                            <healthy>true</healthy>
                                         </wait>
                                     </run>
                                     <build>
