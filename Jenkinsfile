@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                sh 'mvn install -P docker,docker-it,build-extras'
+                sh 'mvn install -P docker,docker-it,build-extras,jenkins-ci'
             }
         }
         stage ('Build and Deploy') {
