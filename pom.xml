@@ -25,7 +25,8 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
-        <docker.published.port>8081</docker.published.port>
+        <docker.published.port>8080</docker.published.port>
+        <it.baseuri>http://127.0.0.1/</it.baseuri>
 
         <!-- Dependency Versions -->
         <version.quarkus>0.14.0</version.quarkus>
@@ -239,7 +240,7 @@
                             <configuration>
                                 <systemProperties>
                                     <sleep.before>10000</sleep.before>
-                                    <it.baseuri>http://127.0.0.1/</it.baseuri>
+                                    <it.baseuri>${it.baseuri}</it.baseuri>
                                     <it.port>${docker.published.port}</it.port>
                                 </systemProperties>
                             </configuration>
@@ -255,6 +256,12 @@
                     </plugins>
                 </pluginManagement>
             </build>
+        </profile>
+        <profile>
+            <id>jenkins-ci</id>
+            <properties>
+                <it.baseuri>http://record-jar-converter-web/</it.baseuri>
+            </properties>
         </profile>
     </profiles>
 

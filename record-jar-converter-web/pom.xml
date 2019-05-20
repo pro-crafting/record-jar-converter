@@ -171,7 +171,7 @@
                                             <port>${docker.published.port}:8080</port>
                                         </ports>
                                         <wait>
-                                            <time>214748</time>
+                                            <time>5000</time>
                                         </wait>
                                     </run>
                                     <build>
