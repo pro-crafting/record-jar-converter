@@ -8,6 +8,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.pro_crafting.tools.recordjarconverter.representation.json.ObjectMapperProvider;
 import com.sun.jndi.toolkit.url.Uri;
 import io.restassured.RestAssured;
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -22,7 +23,8 @@ public abstract class IntegrationTestBase {
     @BeforeAll
     static void beforeAll() {
 
-        RestAssured.baseURI = URI.create(System.getProperties().getProperty("it.baseuri", "http://127.0.0.1/")).getHost();
+        URI uri = URI.create(System.getProperties().getProperty("it.baseuri", "http://127.0.0.1/"));
+        RestAssured.baseURI = "http://"+uri.getHost();
         RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port", "8080"));
         //enableLoggingOfRequestAndResponseIfValidationFails();
     }
