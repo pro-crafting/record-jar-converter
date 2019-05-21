@@ -260,7 +260,7 @@
         <profile>
             <id>jenkins-ci</id>
             <properties>
-                <it.baseuri>http://record-jar-converter-web/</it.baseuri>
+                <it.baseuri>${env.JENKINS_URL}</it.baseuri>
             </properties>
         </profile>
     </profiles>
