@@ -162,7 +162,6 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
-                            <containerNamePattern>%n</containerNamePattern>
                             <images>
                                 <image>
                                     <name>${docker.repository}/${project.artifactId}</name>

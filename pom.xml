@@ -260,7 +260,8 @@
         <profile>
             <id>jenkins-ci</id>
             <properties>
-                <it.baseuri>${env.JENKINS_URL}</it.baseuri>
+                <!-- Environment variable pointing to the real fqdn of the host. Defined inside of jenkins -->
+                <it.baseuri>${env.PC_FQDN}</it.baseuri>
             </properties>
         </profile>
     </profiles>
