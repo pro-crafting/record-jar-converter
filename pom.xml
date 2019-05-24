@@ -261,6 +261,7 @@
             <id>jenkins-ci</id>
             <properties>
                 <!-- Environment variable pointing to the real fqdn of the host. Defined inside of jenkins -->
+                <!--suppress UnresolvedMavenProperty -->
                 <it.baseuri>${env.PC_FQDN}</it.baseuri>
             </properties>
         </profile>

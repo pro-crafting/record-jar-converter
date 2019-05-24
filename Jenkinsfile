@@ -17,8 +17,10 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_IO_USERNAME', passwordVariable: 'DOCKER_IO_TOKEN'),
                     usernamePassword(credentialsId: 'ossrh', usernameVariable: 'OSSRH_USERNAME', passwordVariable: 'OSSRH_TOKEN'),
-                    usernamePassword(credentialsId: 'gpg', usernameVariable: 'GPG_KEY_NAME', passwordVariable: 'GPG_PASSPHRASE')
+                    usernamePassword(credentialsId: 'gpg', usernameVariable: 'GPG_KEY_NAME', passwordVariable: 'GPG_PASSPHRASE'),
+                    file(credentialsId: 'mavensigningkey', variable: 'MAVEN_SIGNING_KEY')
                 ]) {
+                    sh 'gpg --fast-import ${env.MAVEN_SIGNING_KEY}'
                     sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras'
                 }
             }
