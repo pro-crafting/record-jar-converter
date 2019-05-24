@@ -20,7 +20,7 @@ pipeline {
                     usernamePassword(credentialsId: 'gpg', usernameVariable: 'GPG_KEY_NAME', passwordVariable: 'GPG_PASSPHRASE'),
                     file(credentialsId: 'mavensigningkey', variable: 'MAVEN_SIGNING_KEY')
                 ]) {
-                    sh 'gpg --fast-import ${env.MAVEN_SIGNING_KEY}'
+                    sh "gpg --fast-import ${env.MAVEN_SIGNING_KEY}"
                     sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras'
                 }
             }
