@@ -27,7 +27,6 @@
         <docker.repository>postremus</docker.repository>
         <docker.published.port>8080</docker.published.port>
         <it.baseuri>http://127.0.0.1/</it.baseuri>
-        <sonar.projectKey>com.pro-crafting.tools:record-jar-converter</sonar.projectKey>
         <sonar.organization>pro-crafting</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
