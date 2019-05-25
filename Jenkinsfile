@@ -21,7 +21,7 @@ pipeline {
                     file(credentialsId: 'mavensigningkey', variable: 'MAVEN_SIGNING_KEY')
                 ]) {
                     sh "gpg --batch --fast-import ${env.MAVEN_SIGNING_KEY}"
-                    sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras'
+                    sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras,jenkins-ci'
                 }
             }
         }
