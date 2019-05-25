@@ -30,7 +30,7 @@ pipeline {
                 withCredentials([
                     string(credentialsId: 'pro-crafting-sonarcloud', variable: 'SONARCLOUD_TOKEN')
                 ]) {
-                    sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent org.apache.maven.plugins:maven-surefire-plugin:test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar Dsonar.login=${env.SONARCLOUD_TOKEN}"
+                    sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent org.apache.maven.plugins:maven-surefire-plugin:test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=${env.SONARCLOUD_TOKEN}"
                 }
             }
         }
