@@ -8,11 +8,19 @@ pipeline {
     }
     stages {
         stage ('Build') {
+            when {
+                changeRequest()
+            }
             steps {
                 sh 'mvn install -P docker,docker-it,build-extras,jenkins-ci'
             }
         }
         stage ('Build and Deploy') {
+            when {
+                not {
+                    changeRequest()
+                }
+            }
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_IO_USERNAME', passwordVariable: 'DOCKER_IO_TOKEN'),
