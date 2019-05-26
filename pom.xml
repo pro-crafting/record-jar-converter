@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.pro-crafting</groupId>
         <artifactId>pc-parent</artifactId>
-        <version>2</version>
+        <version>3</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -140,13 +140,6 @@
                     <version>${version.docker-maven-plugin}</version>
                     <executions>
                         <execution>
-                            <id>build</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>build</goal>
-                            </goals>
-                        </execution>
-                        <execution>
                             <id>push</id>
                             <phase>deploy</phase>
                             <goals>
@@ -230,6 +223,13 @@
                                 <showLogs>true</showLogs>
                             </configuration>
                             <executions>
+                                <execution>
+                                    <id>build</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
                                 <execution>
                                     <id>start</id>
                                     <goals>
