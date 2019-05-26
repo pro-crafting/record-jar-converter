@@ -169,12 +169,12 @@
                                         <ports>
                                             <port>${docker.published.port}:8080</port>
                                         </ports>
-                                        <http>
-                                            <url>http://${it.baseuri}:${docker.published.port}/health</url>
-                                            <method>GET</method>
-                                            <status>200</status>
-                                        </http>
                                         <wait>
+                                            <http>
+                                                <url>http://${it.baseuri}:${docker.published.port}/health</url>
+                                                <method>GET</method>
+                                                <status>200</status>
+                                            </http>
                                             <time>5000</time>
                                         </wait>
                                     </run>
