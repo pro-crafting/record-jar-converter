@@ -26,6 +26,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
         <docker.published.port>8080</docker.published.port>
+        <it.baseuri>http://127.0.0.1/</it.baseuri>
+        <sonar.organization>pro-crafting</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <!-- Dependency Versions -->
         <version.quarkus>0.14.0</version.quarkus>
@@ -40,7 +43,7 @@
         <!-- Plugin Versions -->
         <version.swagger-maven-plugin>3.1.8.FT.1</version.swagger-maven-plugin>
         <version.swagger-maven-plugin-extensions>1.0.0</version.swagger-maven-plugin-extensions>
-        <version.docker-maven-plugin>0.25.2</version.docker-maven-plugin>
+        <version.docker-maven-plugin>0.30.0</version.docker-maven-plugin>
         <version.maven-surefire-plugin>2.21.0</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
         <version.sonar-maven-plugin>3.4.1.1168</version.sonar-maven-plugin>
@@ -137,13 +140,6 @@
                     <version>${version.docker-maven-plugin}</version>
                     <executions>
                         <execution>
-                            <id>build</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>build</goal>
-                            </goals>
-                        </execution>
-                        <execution>
                             <id>push</id>
                             <phase>deploy</phase>
                             <goals>
@@ -172,6 +168,16 @@
                     <groupId>com.googlecode.maven-download-plugin</groupId>
                     <artifactId>download-maven-plugin</artifactId>
                     <version>${version.download-maven-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <configuration>
+                        <gpgArguments>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
+                        </gpgArguments>
+                    </configuration>
                 </plugin>
             </plugins>
 
@@ -218,6 +224,13 @@
                             </configuration>
                             <executions>
                                 <execution>
+                                    <id>build</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
                                     <id>start</id>
                                     <goals>
                                         <goal>start</goal>
@@ -239,7 +252,7 @@
                             <configuration>
                                 <systemProperties>
                                     <sleep.before>10000</sleep.before>
-                                    <it.baseuri>http://127.0.0.1/</it.baseuri>
+                                    <it.baseuri>${it.baseuri}</it.baseuri>
                                     <it.port>${docker.published.port}</it.port>
                                 </systemProperties>
                             </configuration>
@@ -255,6 +268,14 @@
                     </plugins>
                 </pluginManagement>
             </build>
+        </profile>
+        <profile>
+            <id>jenkins-ci</id>
+            <properties>
+                <!-- Environment variable pointing to the real fqdn of the host. Defined inside of jenkins -->
+                <!--suppress UnresolvedMavenProperty -->
+                <it.baseuri>${env.PC_FQDN}</it.baseuri>
+            </properties>
         </profile>
     </profiles>
 
