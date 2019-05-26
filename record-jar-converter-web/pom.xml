@@ -165,6 +165,7 @@
                                 <image>
                                     <name>${docker.repository}/${project.artifactId}</name>
                                     <run>
+                                        <containerNamePattern>%a-%t-%i</containerNamePattern>
                                         <ports>
                                             <port>${docker.published.port}:8080</port>
                                         </ports>
