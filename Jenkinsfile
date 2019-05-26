@@ -13,6 +13,11 @@ pipeline {
             }
         }
         stage ('Deploy') {
+            when {
+                not {
+                    changeRequest()
+                }
+            }
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_IO_USERNAME', passwordVariable: 'DOCKER_IO_TOKEN'),
