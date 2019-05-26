@@ -8,19 +8,11 @@ pipeline {
     }
     stages {
         stage ('Build') {
-            when {
-                changeRequest()
-            }
             steps {
                 sh 'mvn install -P docker,docker-it,build-extras,jenkins-ci'
             }
         }
-        stage ('Build and Deploy') {
-            when {
-                not {
-                    changeRequest()
-                }
-            }
+        stage ('Deploy') {
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_IO_USERNAME', passwordVariable: 'DOCKER_IO_TOKEN'),
@@ -29,7 +21,7 @@ pipeline {
                     file(credentialsId: 'mavensigningkey', variable: 'MAVEN_SIGNING_KEY')
                 ]) {
                     sh "gpg --batch --fast-import ${env.MAVEN_SIGNING_KEY}"
-                    sh 'mvn deploy -s cd/settings.xml -P sign,docker,docker-it,build-extras,jenkins-ci'
+                    sh 'mvn -DskipTests deploy -s cd/settings.xml -P sign,docker'
                 }
             }
         }
