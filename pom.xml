@@ -48,6 +48,7 @@
         <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
         <version.sonar-maven-plugin>3.4.1.1168</version.sonar-maven-plugin>
         <version.download-maven-plugin>1.4.1</version.download-maven-plugin>
+        <version.build-helper-maven-plugin>3.0.0</version.build-helper-maven-plugin>
 
         <!-- Test Dependency Versions -->
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
@@ -133,6 +134,11 @@
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-maven-plugin</artifactId>
                     <version>${version.quarkus}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${version.build-helper-maven-plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>io.fabric8</groupId>
