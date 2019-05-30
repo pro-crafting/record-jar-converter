@@ -25,8 +25,8 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
-        <docker.published.port>8080</docker.published.port>
-        <it.baseuri>http://127.0.0.1/</it.baseuri>
+        <!-- Port is set during execution of build-helper-maven-plugin:reserve-network-port goal -->
+        <it.baseuri>127.0.0.1</it.baseuri>
         <sonar.organization>pro-crafting</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
@@ -212,6 +212,27 @@
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>docker.published.port</portName>
+                            </portNames>
+                            <randomPort>true</randomPort>
+                            <minPortNumber>40000</minPortNumber>
+                            <maxPortNumber>50000</maxPortNumber>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

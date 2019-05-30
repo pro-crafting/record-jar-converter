@@ -158,27 +158,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>reserve-network-port</id>
-                                <goals>
-                                    <goal>reserve-network-port</goal>
-                                </goals>
-                                <phase>process-resources</phase>
-                                <configuration>
-                                    <portNames>
-                                        <portName>docker.published.port</portName>
-                                    </portNames>
-                                    <randomPort>true</randomPort>
-                                    <minPortNumber>40000</minPortNumber>
-                                    <maxPortNumber>50000</maxPortNumber>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
@@ -197,7 +176,6 @@
                                                 <status>200</status>
                                             </http>
                                             <time>5000</time>
-                                            <healthy>true</healthy>
                                         </wait>
                                     </run>
                                     <build>
