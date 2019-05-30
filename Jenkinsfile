@@ -7,6 +7,23 @@ pipeline {
         jdk 'openjdk8-zulu'
     }
     stages {
+        stage ('Checking commit message') {
+            when {
+                allOf {
+                    not {
+                        buildingTag()
+                    }
+                    changelog '.*\\[maven-release-plugin\\].*'
+                }
+            }
+
+            steps {
+                script {
+                  currentBuild.result = 'NOT_BUILT'
+               }
+               error('Skipping release build')
+            }
+        }
         stage ('Build') {
             steps {
                 sh 'mvn install -P docker,docker-it,build-extras,jenkins-ci'
@@ -38,6 +55,11 @@ pipeline {
                     sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent org.apache.maven.plugins:maven-surefire-plugin:test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=${env.SONARCLOUD_TOKEN}"
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
