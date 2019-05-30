@@ -25,7 +25,6 @@ public abstract class IntegrationTestBase {
 
         RestAssured.baseURI = "http://"+System.getProperties().getProperty("it.baseuri", "127.0.0.1/");
         RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port", "8080"));
-        System.out.println(RestAssured.baseURI);
         //enableLoggingOfRequestAndResponseIfValidationFails();
     }
 

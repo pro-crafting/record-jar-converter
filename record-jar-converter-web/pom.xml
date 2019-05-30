@@ -176,7 +176,6 @@
                                                 <status>200</status>
                                             </http>
                                             <time>5000</time>
-                                            <healthy>true</healthy>
                                         </wait>
                                     </run>
                                     <build>
