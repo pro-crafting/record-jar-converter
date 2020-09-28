@@ -8,5 +8,5 @@ import javax.ws.rs.core.Application;
 @Api
 @ApplicationPath(RestApplication.VERSION_PATH)
 public class RestApplication extends Application {
-    public static final String VERSION_PATH = "v1/";
+    public static final String VERSION_PATH = "/v1/";
 }
