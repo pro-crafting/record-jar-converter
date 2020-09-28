@@ -105,17 +105,8 @@
                                         </ports>
                                     </run>
                                     <build>
-                                        <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
-                                        <assembly>
-                                            <basedir>/</basedir>
-                                            <inline>
-                                                <fileSets>
-                                                    <fileSet>
-                                                        <directory>./target/${output.directory}/</directory>
-                                                    </fileSet>
-                                                </fileSets>
-                                            </inline>
-                                        </assembly>
+                                        <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                                        <contextDir>${project.basedir}</contextDir>
 
                                         <tags>
                                             <tag>latest</tag>

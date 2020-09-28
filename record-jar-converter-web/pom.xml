@@ -20,9 +20,6 @@
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
-                <configuration>
-                    <uberJar>true</uberJar>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -153,6 +150,17 @@
 
     <profiles>
         <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.package.type>native</quarkus.package.type>
+            </properties>
+        </profile>
+        <profile>
             <id>docker</id>
             <build>
                 <plugins>
@@ -160,43 +168,7 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
-                            <images>
-                                <image>
-                                    <name>${docker.repository}/${project.artifactId}</name>
-                                    <run>
-                                        <containerNamePattern>%a-%t-%i</containerNamePattern>
-                                        <ports>
-                                            <port>${docker.published.port}:8080</port>
-                                        </ports>
-                                        <wait>
-                                            <http>
-                                                <url>http://${it.baseuri}:${docker.published.port}/health</url>
-                                                <method>GET</method>
-                                                <status>200</status>
-                                            </http>
-                                            <time>5000</time>
-                                        </wait>
-                                    </run>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
-                                        <assembly>
-                                            <basedir>/</basedir>
-                                            <inline>
-                                                <files>
-                                                    <file>
-                                                        <source>${project.build.directory}/${file.runner}</source>
-                                                    </file>
-                                                </files>
-                                            </inline>
-                                        </assembly>
-
-                                        <tags>
-                                            <tag>latest</tag>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                    </build>
-                                </image>
-                            </images>
+                            <skip>true</skip>
                         </configuration>
                     </plugin>
                 </plugins>
