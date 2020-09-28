@@ -198,7 +198,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.repository}/${project.artifactId}</name>
+                                    <name>${docker.repository}/record-jar-converter-web</name>
                                     <run>
                                         <containerNamePattern>%a-%t-%i</containerNamePattern>
                                         <ports>
