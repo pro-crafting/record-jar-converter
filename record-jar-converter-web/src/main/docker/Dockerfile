@@ -1,4 +1,4 @@
-FROM openjdk:8-alpine
+FROM openjdk:11-alpine
 MAINTAINER Martin Panzer <postremus1996@googlemail.com>
 ENTRYPOINT java -Djava.net.preferIPv4Stack=true -jar /opt/${file.runner}
 HEALTHCHECK --retries=5 CMD wget -O health.json -q 127.0.0.1:8080/health || exit 1
