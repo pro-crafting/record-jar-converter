@@ -28,49 +28,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.pro-crafting</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>${version.swagger-maven-plugin}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.pro-crafting</groupId>
-                        <artifactId>swagger-maven-plugin-extensions</artifactId>
-                        <version>${version.swagger-maven-plugin-extensions}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <apiSources>
-                        <apiSource>
-                            <springmvc>false</springmvc>
-                            <locations>com.pro_crafting.tools.recordjarconverter.rest</locations>
-                            <schemes>https</schemes>
-                            <basePath>/v1</basePath>
-                            <info>
-                                <title>Record Jar Converter</title>
-                                <version>${project.version}</version>
-                            </info>
-                            <swaggerDirectory>${project.build.directory}</swaggerDirectory>
-                            <swaggerApiReader>
-                                com.pro_crafting.tools.swagermavenpluginextensions.reader.JaxrsReaderExpansion
-                            </swaggerApiReader>
-                            <swaggerExtensions>
-                                <swaggerExtension>
-                                    com.pro_crafting.tools.swagermavenpluginextensions.extensions.RestEasyMultipartProviderExtension
-                                </swaggerExtension>
-                            </swaggerExtensions>
-                        </apiSource>
-                    </apiSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -81,11 +38,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${version.swagger-annotations}</version>
         </dependency>
 
         <!-- Quarkus Extensions -->

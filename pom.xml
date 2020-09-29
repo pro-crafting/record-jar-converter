@@ -13,7 +13,6 @@
     <version>1.5.3-SNAPSHOT</version>
     <modules>
         <module>record-jar-converter-web</module>
-        <module>record-jar-converter-rest-api</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -31,16 +30,11 @@
         <!-- Dependency Versions -->
         <version.quarkus>1.8.1.Final</version.quarkus>
 
-        <version.swagger-annotations>1.5.18</version.swagger-annotations>
-
         <!-- Plugin Versions -->
-        <version.swagger-maven-plugin>3.1.8.FT.1</version.swagger-maven-plugin>
-        <version.swagger-maven-plugin-extensions>1.0.0</version.swagger-maven-plugin-extensions>
         <version.docker-maven-plugin>0.34.0</version.docker-maven-plugin>
         <version.maven-surefire-plugin>2.21.0</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
         <version.sonar-maven-plugin>3.4.1.1168</version.sonar-maven-plugin>
-        <version.download-maven-plugin>1.4.1</version.download-maven-plugin>
 
         <!-- Test Dependency Versions -->
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
@@ -60,12 +54,6 @@
                 <version>${version.quarkus}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${version.swagger-annotations}</version>
             </dependency>
 
             <!-- Test dependencies -->
@@ -136,11 +124,6 @@
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${version.sonar-maven-plugin}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.googlecode.maven-download-plugin</groupId>
-                    <artifactId>download-maven-plugin</artifactId>
-                    <version>${version.download-maven-plugin}</version>
                 </plugin>
             </plugins>
 
