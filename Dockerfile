@@ -10,7 +10,6 @@ RUN mvn -f /usr/src/app/pom.xml -Pnative clean package
 ## Stage 2 : create the docker final image
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 MAINTAINER Martin Panzer <postremus1996@googlemail.com>
-HEALTHCHECK --retries=5 CMD wget -O health.json -q 127.0.0.1:8080/health || exit 1
 EXPOSE 8080
 
 WORKDIR /work/
