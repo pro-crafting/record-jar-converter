@@ -18,15 +18,15 @@ docker run -p 8080:8080 postremus/record-jar-converter:1.0.0
 ````
 
 ## Usage:
-The rest api is documented using openapi at [REST api](https://rjc.pro-crafting.com/swagger-ui/).
-The newest version of the REST api is always hosted at [rjc.pro-crafting.com](rjc.pro-crafting.com).
+The rest api is documented using openapi at [REST api](https://record-jar-converter.pro-crafting.com/swagger-ui/).
+The newest version of the REST api is always hosted at [record-jar-converter.pro-crafting.com](record-jar-converter.pro-crafting.com).
 
 The following example is based upon "The Art of Unix Programming", and shows an call to the api, together with the result:
 ````
 root@tm:~# curl -X POST --header 'Content-Type: text/plain' --header 'Accept: application/json' -d 'Planet: Mercury \
 >  Orbital-Radius: 57,910,000 km \
 >  Diameter: 4,880 km \
->  Mass: 3.30e23 kg' 'https://rjc.pro-crafting.com/v1/record/jar/text?encoding=UTF-8'
+>  Mass: 3.30e23 kg' 'https://record-jar-converter.pro-crafting.com/v1/record/jar/text?encoding=UTF-8'
 [{"Planet":"Mercury Orbital-Radius: 57,910,000 km Diameter: 4,880 km Mass: 3.30e23 kg"}]
 ````
 
