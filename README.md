@@ -4,8 +4,8 @@
 [![](https://images.microbadger.com/badges/image/postremus/record-jar-converter-web.svg)](https://microbadger.com/images/postremus/record-jar-converter-web "Get your own image badge on microbadger.com")
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Wildfly Swarm based microservice for converting record jar formatted text to json.
-Currenctly, record-jar-draft-02 is supported, but not completly implemented. See the Label [draft02-compliance](https://github.com/pro-crafting/record-jar-converter/issues?q=is%3Aissue+is%3Aopen+label%3Adraft02-compliance) for missing bits.
+Quarkus based microservice for converting record jar formatted text to json.
+Currently, record-jar-draft-02 is supported, but not completely implemented. See the Label [draft02-compliance](https://github.com/pro-crafting/record-jar-converter/issues?q=is%3Aissue+is%3Aopen+label%3Adraft02-compliance) for missing bits.
 
 ## Installation
 Use the official docker image:
@@ -18,7 +18,7 @@ docker run -p 8080:8080 postremus/record-jar-converter:1.0.0
 ````
 
 ## Usage:
-Swagger is used for documentation of the [REST api](https://rjc.pro-crafting.com/record-jar-converter-rest-api/).
+The rest api is documented using openapi at [REST api](https://rjc.pro-crafting.com/swagger-ui/).
 The newest version of the REST api is always hosted at [rjc.pro-crafting.com](rjc.pro-crafting.com).
 
 The following example is based upon "The Art of Unix Programming", and shows an call to the api, together with the result:
@@ -43,8 +43,3 @@ See also the list of [contributors](https://github.com/Postremus/record-jar-conv
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* [Docker](https://docker.io)
-* All the people behind [Maven](https://maven.apache.org/team-list.html) and [Java](https://java.net/people).
