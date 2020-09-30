@@ -14,7 +14,7 @@ HEALTHCHECK --retries=5 CMD wget -O health.json -q 127.0.0.1:8080/health || exit
 EXPOSE 8080
 
 WORKDIR /work/
-COPY --from=build /usr/src/app/record-jar-converter-web/target/*-runner /work/application
+COPY --from=build /usr/src/app/target/*-runner /work/application
 
 # set up permissions for user `1001`
 RUN chmod 775 /work /work/application \
