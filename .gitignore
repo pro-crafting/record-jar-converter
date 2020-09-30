@@ -20,3 +20,5 @@ hs_err_pid*
 *.iml
 /target/
 /record-jar-converter-rest-api/src/main/webapp/swagger/swagger.json
+/record-jar-converter-rest-api/target/
+/record-jar-converter-web/target/

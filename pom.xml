@@ -8,21 +8,18 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pro-crafting.tools</groupId>
-    <artifactId>record-jar-converter</artifactId>
+    <artifactId>record-jar-converter-web</artifactId>
 
     <version>1.5.3-SNAPSHOT</version>
-    <modules>
-        <module>record-jar-converter-web</module>
-        <module>record-jar-converter-rest-api</module>
-        <module>record-jar-converter-site</module>
-    </modules>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <!-- Settings -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
+        <file.runner>${project.build.finalName}-runner.jar</file.runner>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
         <!-- Port is set during execution of build-helper-maven-plugin:reserve-network-port goal -->
@@ -31,23 +28,13 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <!-- Dependency Versions -->
-        <version.quarkus>0.14.0</version.quarkus>
-        <!-- Update this version when updating quarkus -->
-        <version.jackson>2.9.8</version.jackson>
-        <version.resteasy>4.0.0.CR2</version.resteasy>
-
-        <version.swagger-annotations>1.5.18</version.swagger-annotations>
-        <version.commons-io>2.6</version.commons-io>
-        <version.guava>25.0-jre</version.guava>
+        <version.quarkus>1.8.1.Final</version.quarkus>
 
         <!-- Plugin Versions -->
-        <version.swagger-maven-plugin>3.1.8.FT.1</version.swagger-maven-plugin>
-        <version.swagger-maven-plugin-extensions>1.0.0</version.swagger-maven-plugin-extensions>
-        <version.docker-maven-plugin>0.30.0</version.docker-maven-plugin>
+        <version.docker-maven-plugin>0.34.0</version.docker-maven-plugin>
         <version.maven-surefire-plugin>2.21.0</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
         <version.sonar-maven-plugin>3.4.1.1168</version.sonar-maven-plugin>
-        <version.download-maven-plugin>1.4.1</version.download-maven-plugin>
 
         <!-- Test Dependency Versions -->
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
@@ -55,76 +42,6 @@
         <version.mockito-core>2.18.3</version.mockito-core>
         <version.rest-assured>3.1.0</version.rest-assured>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Internal dependencies -->
-
-            <!-- External dependencies -->
-            <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${version.quarkus}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${version.jackson}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${version.swagger-annotations}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${version.commons-io}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${version.guava}</version>
-            </dependency>
-
-            <!-- Test dependencies -->
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit.jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${version.mockito-core}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-junit-jupiter</artifactId>
-                <version>${version.mockito-core}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>${version.rest-assured}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -164,16 +81,22 @@
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${version.sonar-maven-plugin}</version>
                 </plugin>
-                <plugin>
-                    <groupId>com.googlecode.maven-download-plugin</groupId>
-                    <artifactId>download-maven-plugin</artifactId>
-                    <version>${version.download-maven-plugin}</version>
-                </plugin>
             </plugins>
 
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -214,7 +137,152 @@
         </plugins>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Internal dependencies -->
+
+            <!-- External dependencies -->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${version.quarkus}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${version.mockito-core}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${version.mockito-core}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${version.rest-assured}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Internal Dependencies -->
+
+        <!-- External Dependencies -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <!-- Quarkus Extensions -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-metrics</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus </groupId>
+            <artifactId>quarkus-resteasy-multipart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus </groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jsonSchema</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>${docker.repository}/record-jar-converter-web</name>
+                                    <run>
+                                        <containerNamePattern>%a-%t-%i</containerNamePattern>
+                                        <ports>
+                                            <port>${docker.published.port}:8080</port>
+                                        </ports>
+                                    </run>
+                                    <build>
+                                        <contextDir>${project.basedir}</contextDir>
+
+                                        <tags>
+                                            <tag>latest</tag>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>docker-it</id>
             <build>
@@ -279,6 +347,17 @@
                 <!-- Environment variable pointing to the real fqdn of the host. Defined inside of jenkins -->
                 <!--suppress UnresolvedMavenProperty -->
                 <it.baseuri>${env.PC_FQDN}</it.baseuri>
+            </properties>
+        </profile>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.package.type>native</quarkus.package.type>
             </properties>
         </profile>
     </profiles>
