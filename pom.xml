@@ -3,43 +3,38 @@
     <parent>
         <groupId>com.pro-crafting</groupId>
         <artifactId>pc-parent</artifactId>
-        <version>9</version>
+        <version>10</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pro-crafting.tools</groupId>
     <artifactId>record-jar-converter-web</artifactId>
 
-    <version>1.6.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.7.0-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:git:git@github.com:pro-crafting/record-jar-converter.git</connection>
+        <url>https://github.com/pro-crafting/record-jar-converter</url>
+        <developerConnection>scm:git:git@github.com:pro-crafting/record-jar-converter.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <!-- Settings -->
         <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
         <file.runner>${project.build.finalName}-runner.jar</file.runner>
 
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.repository>postremus</docker.repository>
         <!-- Port is set during execution of build-helper-maven-plugin:reserve-network-port goal -->
         <it.baseuri>127.0.0.1</it.baseuri>
-        <sonar.organization>pro-crafting</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <!-- Dependency Versions -->
         <version.quarkus>1.8.1.Final</version.quarkus>
 
         <!-- Plugin Versions -->
-        <version.docker-maven-plugin>0.34.0</version.docker-maven-plugin>
-        <version.maven-surefire-plugin>2.21.0</version.maven-surefire-plugin>
-        <version.maven-failsafe-plugin>2.21.0</version.maven-failsafe-plugin>
-        <version.sonar-maven-plugin>3.4.1.1168</version.sonar-maven-plugin>
+        <version.maven-failsafe-plugin>3.0.0-M5</version.maven-failsafe-plugin>
 
         <!-- Test Dependency Versions -->
-        <junit.jupiter.version>5.2.0</junit.jupiter.version>
-        <junit.platform.version>1.2.0</junit.platform.version>
-        <version.mockito-core>2.18.3</version.mockito-core>
         <version.rest-assured>3.1.0</version.rest-assured>
     </properties>
 
@@ -54,7 +49,6 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>${version.docker-maven-plugin}</version>
                     <executions>
                         <execution>
                             <id>push</id>
@@ -64,22 +58,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${version.maven-surefire-plugin}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.junit.platform</groupId>
-                            <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>${junit.platform.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>${version.sonar-maven-plugin}</version>
                 </plugin>
             </plugins>
 
@@ -101,13 +79,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${version.maven-failsafe-plugin}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit.platform.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
@@ -133,6 +104,31 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>${docker.repository}/record-jar-converter-web</name>
+                            <run>
+                                <containerNamePattern>%a-%t-%i</containerNamePattern>
+                                <ports>
+                                    <port>${docker.published.port}:8080</port>
+                                </ports>
+                            </run>
+                            <build>
+                                <contextDir>${project.basedir}</contextDir>
+
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -193,10 +189,6 @@
         <!-- Quarkus Extensions -->
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jackson</artifactId>
         </dependency>
         <dependency>
@@ -219,21 +211,6 @@
 
         <!-- Test dependencies -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
@@ -251,38 +228,6 @@
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>docker</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>${docker.repository}/record-jar-converter-web</name>
-                                    <run>
-                                        <containerNamePattern>%a-%t-%i</containerNamePattern>
-                                        <ports>
-                                            <port>${docker.published.port}:8080</port>
-                                        </ports>
-                                    </run>
-                                    <build>
-                                        <contextDir>${project.basedir}</contextDir>
-
-                                        <tags>
-                                            <tag>latest</tag>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>docker-it</id>
             <build>
@@ -361,11 +306,4 @@
             </properties>
         </profile>
     </profiles>
-
-    <scm>
-        <connection>scm:git:git@github.com:pro-crafting/record-jar-converter.git</connection>
-        <url>https://github.com/pro-crafting/record-jar-converter</url>
-        <developerConnection>scm:git:git@github.com:pro-crafting/record-jar-converter.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
 </project>
