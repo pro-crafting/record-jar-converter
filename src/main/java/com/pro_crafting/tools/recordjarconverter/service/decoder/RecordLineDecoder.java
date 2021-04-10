@@ -52,7 +52,7 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
 
     @Override
     public boolean caresAboutLine(String line) {
-        return  (record.isEmpty() && line.startsWith(CommentLineDecoder.COMMENT_START)) || !line.startsWith(RECORD_SEPERATOR);
+        return  (record.getFields().isEmpty() && line.startsWith(CommentLineDecoder.COMMENT_START)) || !line.startsWith(RECORD_SEPERATOR);
     }
 
     @Override
@@ -78,6 +78,6 @@ public class RecordLineDecoder implements LineByLineDecoder<Record> {
 
     @Override
     public boolean hasData() {
-        return !record.isEmpty() || decoder.hasData();
+        return !record.getFields().isEmpty() || decoder.hasData();
     }
 }

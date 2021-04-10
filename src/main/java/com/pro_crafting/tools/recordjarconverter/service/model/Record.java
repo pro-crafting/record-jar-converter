@@ -41,8 +41,4 @@ public class Record {
         this.fields.clear();
         comments = null;
     }
-
-    public boolean isEmpty() {
-        return this.fields.isEmpty();
-    }
 }

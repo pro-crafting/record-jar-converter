@@ -10,6 +10,6 @@ public class StatusIT extends IntegrationTestBase {
     void testOutcomeUp() {
         get("/health")
                 .then()
-                .body("outcome", equalTo("UP"));
+                .body("status", equalTo("UP"));
     }
 }
