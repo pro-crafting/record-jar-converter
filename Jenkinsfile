@@ -26,7 +26,7 @@ pipeline {
         }
         stage ('Build') {
             steps {
-                sh 'mvn install -P docker,docker-it,build-extras,jenkins-ci'
+                sh 'mvn install -P docker-it,jenkins-ci'
             }
         }
         stage ('Deploy') {
@@ -43,7 +43,7 @@ pipeline {
                     file(credentialsId: 'mavensigningkey', variable: 'MAVEN_SIGNING_KEY')
                 ]) {
                     sh "gpg --batch --fast-import ${env.MAVEN_SIGNING_KEY}"
-                    sh 'mvn -DskipTests deploy -s cd/settings.xml -P sign,docker,build-extras'
+                    sh 'mvn -DskipTests deploy -s cd/settings.xml -P sign'
                 }
             }
         }

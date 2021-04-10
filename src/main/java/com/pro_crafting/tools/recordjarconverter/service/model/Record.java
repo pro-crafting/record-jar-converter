@@ -1,10 +1,8 @@
 package com.pro_crafting.tools.recordjarconverter.service.model;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 
-import java.util.*;
 
 public class Record {
     private Multimap<String, String> fields;
@@ -42,9 +40,5 @@ public class Record {
     public void clear() {
         this.fields.clear();
         comments = null;
-    }
-
-    public boolean isEmpty() {
-        return this.fields.isEmpty();
     }
 }

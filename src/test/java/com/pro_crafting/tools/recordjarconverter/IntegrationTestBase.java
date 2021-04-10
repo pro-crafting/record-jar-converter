@@ -15,11 +15,13 @@ import java.net.URI;
 
 @ExtendWith(InitializeExtension.class)
 public abstract class IntegrationTestBase {
-    private ObjectMapper mapper = ObjectMapperProvider.getMapper();
+    private static ObjectMapper mapper = new ObjectMapper();
     private JsonSchemaGenerator generator = new JsonSchemaGenerator(mapper);
 
     @BeforeAll
     static void beforeAll() {
+        ObjectMapperProvider provider = new ObjectMapperProvider();
+        provider.customize(mapper);
 
         RestAssured.baseURI = "http://"+System.getProperties().getProperty("it.baseuri", "127.0.0.1/");
         RestAssured.port = Integer.parseInt(System.getProperties().getProperty("it.port", "8080"));

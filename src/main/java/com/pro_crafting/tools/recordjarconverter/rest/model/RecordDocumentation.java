@@ -14,10 +14,4 @@ public abstract class RecordDocumentation extends Record {
     @Schema(description = "Comments that immediately preceded the record. This is basicly a list consisting of free text.")
     @Override
     public abstract String[] getComments();
-
-    @Schema(hidden = true)
-    @Override
-    public boolean isEmpty() {
-        return super.isEmpty();
-    }
 }
