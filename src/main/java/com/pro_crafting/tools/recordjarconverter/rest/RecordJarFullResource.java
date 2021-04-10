@@ -47,7 +47,7 @@ public class RecordJarFullResource {
                     responseCode = "400", description = "400 Bad Request. Violations are present in the body.", content = @Content(schema = @Schema(implementation = Violation.class, type = SchemaType.ARRAY))
             )
     })
-    public Response uploadMultipartFile(@MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
+    public Response uploadMultipartFile(@MultipartForm RecordJarFile recordJarFile) {
         List<Record> records = service.convert(recordJarFile.getFile(), recordJarFile.getEncoding());
         return Response.ok().entity(records).build();
     }

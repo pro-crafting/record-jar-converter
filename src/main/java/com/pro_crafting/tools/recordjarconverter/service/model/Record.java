@@ -1,10 +1,8 @@
 package com.pro_crafting.tools.recordjarconverter.service.model;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 
-import java.util.*;
 
 public class Record {
     private Multimap<String, String> fields;
