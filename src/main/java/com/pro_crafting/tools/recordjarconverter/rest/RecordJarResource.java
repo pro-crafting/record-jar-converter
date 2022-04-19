@@ -15,12 +15,16 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jboss.resteasy.reactive.MultipartForm;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +40,12 @@ public class RecordJarResource {
     @Inject
     RecordJarService service;
 
+    @Context
+    UriInfo uriInfo;
+
+    @Context
+    HttpHeaders headers;
+
     @POST
     @Path("multipart/file")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -49,9 +59,10 @@ public class RecordJarResource {
                     responseCode = "400", description = "400 Bad Request. Violations are present in the body.", content = @Content(schema = @Schema(implementation = Violation.class, type = SchemaType.ARRAY))
             )
     })
-    public Response uploadMultipartFile(@MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
+    public RestResponse<List<Multimap<String, String>>> uploadMultipartFile(@MultipartForm RecordJarFile recordJarFile) throws FileNotFoundException {
         List<Record> records = service.convert(new FileInputStream(recordJarFile.getFile().uploadedFile().toFile()), recordJarFile.getEncoding());
-        return Response.ok().entity(map(records)).build();
+
+        return RestResponse.ok(map(records));
     }
 
     @POST
@@ -67,13 +78,14 @@ public class RecordJarResource {
                     responseCode = "400", description = "400 Bad Request. Violations are present in the body.", content = @Content(schema = @Schema(implementation = Violation.class, type = SchemaType.ARRAY))
             )
     })
-    public Response uploadMultipartText(@MultipartForm RecordJarText recordJarText) {
+    public RestResponse<List<Multimap<String, String>>> uploadMultipartText(@MultipartForm RecordJarText recordJarText) {
         if (recordJarText.getEncoding() == null) {
             recordJarText.setEncoding("UTF-8");
         }
 
         List<Record> records = service.convert(new ByteArrayInputStream(recordJarText.getText().getBytes(Charset.forName(recordJarText.getEncoding()))), recordJarText.getEncoding());
-        return Response.ok().entity(map(records)).build();
+
+        return RestResponse.ok(map(records));
     }
 
     @POST
@@ -89,17 +101,21 @@ public class RecordJarResource {
                     responseCode = "400", description = "400 Bad Request. Violations are present in the body.", content = @Content(schema = @Schema(implementation = Violation.class, type = SchemaType.ARRAY))
             )
     })
-    public Response uploadText(@Parameter(description = "Encoding of the specified record-jar formatted file.", example="UTF-8") @DefaultValue("UTF-8") @QueryParam("encoding") String encoding,
+    public RestResponse<List<Multimap<String, String>>> uploadText(@Parameter(description = "Encoding of the specified record-jar formatted file.", example="UTF-8") @DefaultValue("UTF-8") @QueryParam("encoding") String encoding,
                                @RequestBody(description = "Record Jar formatted text", required = true, content = @Content(schema = @Schema(type = SchemaType.STRING))) byte[] recordJarText) {
         if (encoding == null) {
             encoding = "UTF-8";
         }
 
         List<Record> records = service.convert(new ByteArrayInputStream(recordJarText), encoding);
-        return Response.ok().entity(map(records)).build();
+
+        return RestResponse.ok(map(records));
     }
 
     private List<Multimap<String, String>> map(List<Record> records) {
-        return records.stream().map(Record::getFields).collect(Collectors.toList());
+        if (records == null) {
+            return Collections.emptyList();
+        }
+        return records.stream().map(Record::getFields).toList();
     }
 }

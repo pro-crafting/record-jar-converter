@@ -92,6 +92,7 @@ class RecordJarResourceTest {
         Response response = given()
                 .body(body)
                 .queryParam("encoding", "UTF-8")
+                .contentType("text/plain; charset=UTF-8")
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
