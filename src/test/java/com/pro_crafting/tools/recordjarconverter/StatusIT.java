@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import static io.restassured.RestAssured.get;
 
-public class StatusIT extends IntegrationTestBase {
+public class StatusIT extends JsonSchemaUtil {
     @Test
     void testOutcomeUp() {
         get("/health")

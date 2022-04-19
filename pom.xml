@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.pro-crafting</groupId>
         <artifactId>pc-parent</artifactId>
-        <version>10</version>
+        <version>11</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -11,6 +11,10 @@
     <artifactId>record-jar-converter-web</artifactId>
 
     <version>1.7.0-SNAPSHOT</version>
+
+    <description>
+        Record JAR Converter.
+    </description>
 
     <scm>
         <connection>scm:git:git@github.com:pro-crafting/record-jar-converter.git</connection>
@@ -21,21 +25,10 @@
 
     <properties>
         <!-- Settings -->
-        <docker.name>postremus/${project.artifactId}:${project.version}</docker.name>
-        <file.runner>${project.build.finalName}-runner.jar</file.runner>
-
-        <docker.repository>postremus</docker.repository>
-        <!-- Port is set during execution of build-helper-maven-plugin:reserve-network-port goal -->
-        <it.baseuri>127.0.0.1</it.baseuri>
-
         <!-- Dependency Versions -->
-        <version.quarkus>1.13.1.Final</version.quarkus>
+        <version.quarkus>2.8.0.Final</version.quarkus>
 
         <!-- Plugin Versions -->
-        <version.maven-failsafe-plugin>3.0.0-M5</version.maven-failsafe-plugin>
-
-        <!-- Test Dependency Versions -->
-        <version.rest-assured>3.1.0</version.rest-assured>
     </properties>
 
     <build>
@@ -46,21 +39,7 @@
                     <artifactId>quarkus-maven-plugin</artifactId>
                     <version>${version.quarkus}</version>
                 </plugin>
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>push</id>
-                            <phase>deploy</phase>
-                            <goals>
-                                <goal>push</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
-
         </pluginManagement>
 
         <plugins>
@@ -74,62 +53,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${version.maven-failsafe-plugin}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${version.sonar-maven-plugin}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>reserve-network-port</id>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <portNames>
-                                <portName>docker.published.port</portName>
-                            </portNames>
-                            <randomPort>true</randomPort>
-                            <minPortNumber>40000</minPortNumber>
-                            <maxPortNumber>50000</maxPortNumber>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>${docker.repository}/record-jar-converter-web</name>
-                            <run>
-                                <containerNamePattern>%a-%t-%i</containerNamePattern>
-                                <ports>
-                                    <port>${docker.published.port}:8080</port>
-                                </ports>
-                            </run>
-                            <build>
-                                <contextDir>${project.basedir}</contextDir>
-
-                                <tags>
-                                    <tag>latest</tag>
-                                    <tag>${project.version}</tag>
-                                </tags>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -180,6 +103,11 @@
             <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+
 
         <!-- Test dependencies -->
         <dependency>
@@ -190,7 +118,6 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>${version.rest-assured}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -206,72 +133,6 @@
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>docker-it</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <configuration>
-                                <showLogs>true</showLogs>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>build</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                    </goals>
-                                </execution>
-                                <execution>
-                                    <id>start</id>
-                                    <goals>
-                                        <goal>start</goal>
-                                    </goals>
-                                    <phase>pre-integration-test</phase>
-                                </execution>
-                                <execution>
-                                    <id>stop</id>
-                                    <goals>
-                                        <goal>stop</goal>
-                                    </goals>
-                                    <phase>post-integration-test</phase>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-failsafe-plugin</artifactId>
-                            <configuration>
-                                <systemProperties>
-                                    <sleep.before>10000</sleep.before>
-                                    <it.baseuri>${it.baseuri}</it.baseuri>
-                                    <it.port>${docker.published.port}</it.port>
-                                </systemProperties>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>integration-test</goal>
-                                        <goal>verify</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>jenkins-ci</id>
-            <properties>
-                <!-- Environment variable pointing to the real fqdn of the host. Defined inside of jenkins -->
-                <!--suppress UnresolvedMavenProperty -->
-                <it.baseuri>${env.PC_FQDN}</it.baseuri>
-            </properties>
-        </profile>
         <profile>
             <id>native</id>
             <activation>
