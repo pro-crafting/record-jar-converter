@@ -2,13 +2,11 @@ package com.pro_crafting.tools.recordjarconverter.rest;
 
 import com.pro_crafting.tools.recordjarconverter.RestApplication;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static io.restassured.RestAssured.given;
@@ -76,7 +74,7 @@ class RecordJarResourceTest {
         String body = resourceToString("language-subtag-registry.rj", StandardCharsets.UTF_8, getClass().getClassLoader());
         String expected = resourceToString("language-subtag-registry-converted.json", StandardCharsets.UTF_8, getClass().getClassLoader());
         Response response = given()
-                .multiPart(new MultiPartSpecBuilder(body).controlName("text").mimeType("text/plain").charset("UTF-8").build())
+                .multiPart("text", body)
                 .multiPart("encoding", "UTF-8")
                 .expect()
                 .statusCode(200)
@@ -94,6 +92,7 @@ class RecordJarResourceTest {
         Response response = given()
                 .body(body)
                 .queryParam("encoding", "UTF-8")
+                .contentType("text/plain; charset=UTF-8")
                 .expect()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
